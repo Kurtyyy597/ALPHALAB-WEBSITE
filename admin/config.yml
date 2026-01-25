@@ -1,5 +1,6 @@
 backend:
   name: git-gateway
+  repo: Kurtyyy597/ALPHALAB-WEBSITE
   branch: main
 
 media_folder: "Images/uploads"
