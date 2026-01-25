@@ -1,0 +1,19 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "Images/uploads"
+public_folder: "/Images/uploads"
+
+collections:
+  - name: "pricing"
+    label: "Pricing Page"
+    files:
+      - name: "plans"
+        label: "Membership Plans"
+        file: "content/pricing.json"
+        fields:
+          - { label: "Basic Price", name: "basic", widget: "string" }
+          - { label: "Pro Price", name: "pro", widget: "string" }
+          - { label: "Elite Price", name: "elite", widget: "string" }
+          - { label: "Promo Text", name: "promo", widget: "string" }
