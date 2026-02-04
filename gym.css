@@ -263,6 +263,7 @@ body.no-bg::after {
   }
 }
 
+
 #welcomeMessage{
   text-align: center;
   font-size: 40px;
@@ -351,6 +352,7 @@ header.sticky {
   
 }
 
+
 .train-with-us-container{
   margin-top: 20px;
   background: linear-gradient(135deg, #020617, #061a22, #020617);
@@ -410,6 +412,7 @@ header.sticky {
 .card-paragraph{
   font-size: 20px;
   color:  #E5E7EB;
+
   font-weight: bold;
 }
 
@@ -464,6 +467,8 @@ header.sticky {
   font-size: 20px;
   color:  #E5E7EB;
 }
+
+
 
 
 
@@ -672,18 +677,29 @@ header.sticky {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  align-items: center;
+  justify-content: center;
+
   width: 100%;
   gap: 20px;
   
 }
 
 .gallery-card{
+
   width: 300px;
   border-radius: 15px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  justify-content: space-between;
+  width: 100%;
+
   
 
   
@@ -701,6 +717,23 @@ header.sticky {
     floatImage 6s ease-in-out infinite,
     glowPulse 3s ease-in-out infinite alternate;
 }
+
+.gallery-card{ box-shadow:
+  0 0 4px rgba(56, 189, 248, 0.4),
+  0 0 10px rgba(56, 189, 248, 0.6),
+  0 0 25px rgba(14, 165, 233, 0.8); 
+  border-radius: 15px;
+  width: 100%;
+   object-fit: cover;
+  height: 200px;
+
+   animation:
+    floatImage 6s ease-in-out infinite,
+    glowPulse 3s ease-in-out infinite alternate;
+
+ 
+ }
+
 
  @keyframes floatImage {
   0%   { transform: translateY(0); }
@@ -723,6 +756,7 @@ header.sticky {
   }
 }
 
+
 .img-gallery-title{
   text-align: center;
   font-size: 25px;
@@ -734,6 +768,10 @@ header.sticky {
   
   filter: brightness(1.1) saturate(1.2);
   transform: translateY(-10px) scale(1.02);
+
+
+
+
   box-shadow:
     0 0 10px rgba(56, 189, 248, 0.6),
     0 0 25px rgba(56, 189, 248, 0.9),
@@ -1020,7 +1058,11 @@ header.sticky {
 .social-media-container{
   display: flex;
   flex-direction: column;
+
   margin-top: 40px;
+
+  margin-top: 20px;
+
   box-shadow:
     0 0px 40px rgba(242, 246, 7, 0.25),
     0 0 40px rgba(99, 102, 241, 0.4),
@@ -1040,14 +1082,22 @@ header.sticky {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  
   padding: 40px;
+
+  padding: 20px;
+
 
 }
 
 .social-box{
+
   padding: 20px;
   width: 350px;
+
+  
+  width: 150px;
+  height: 100px;
+
   border-radius: 15px;
   box-shadow:
   0 0px 40px rgba(251, 255, 3, 0.25),
@@ -1055,9 +1105,13 @@ header.sticky {
   0 0 50px rgba(99, 102, 241, 0.4);
   display: flex;
   align-items: center;
+
   flex-direction: column;
   justify-content: center;
   text-align: center;
+
+  justify-content: center;
+
     
 }
 
@@ -1065,7 +1119,11 @@ header.sticky {
   cursor: pointer;
   transform: translateY(-10px) scale(1.02);
   filter: brightness(1.15) saturate(1.2);
+
   width: 360px;
+
+  width: 160px;
+
   box-shadow:
     0 0 12px rgba(234, 255, 0, 0.6),
     0 0 30px rgba(99, 102, 241, 0.8),
@@ -1097,7 +1155,10 @@ header.sticky {
 
 
 .contact-card{
+
   padding: 10px;
+
+
   width: 200px;
   height: 200px;
   border-radius: 15px;
@@ -1111,9 +1172,12 @@ header.sticky {
     box-sizing: border-box;
 }
 
+
 .contact-card a{
   text-decoration: none;
 }
+
+
 
 .contact-card:hover {
   cursor: pointer;
@@ -1320,6 +1384,7 @@ header.sticky {
   font-size: 15px;
   text-align: center;
 }
+
 
 .clear-btn {
   background: transparent;
@@ -2253,6 +2318,7 @@ section,
   opacity: 1;
   transform: translateY(0);
 }
+
 
 
 
