@@ -220,25 +220,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================
      SUBMIT LOADING + SUCCESS
   ========================== */
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    submitBtn.textContent = "Sending... ⏳";
-    submitBtn.disabled = true;
-
-    setTimeout(() => {
-      submitBtn.textContent = "Send Message";
-      submitBtn.disabled = false;
-
-      localStorage.removeItem(formKey);
-      form.reset();
-      updateCounter();
-      updateProgress();
-      paymentInfo.style.display = "none";
-
-      showSuccessMessage();
-    }, 1500);
-  });
 
   /* ==========================
      SUCCESS MESSAGE MODAL

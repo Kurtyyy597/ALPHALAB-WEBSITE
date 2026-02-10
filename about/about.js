@@ -107,14 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ============================
   // CORE VALUES HOVER GLOW
   // ============================
-  document.querySelectorAll(".values-list li").forEach((item) => {
-    item.addEventListener("mouseenter", () => {
-      item.classList.add("glow");
-    });
 
-    item.addEventListener("mouseleave", () => {
-      item.classList.remove("glow");
-    });
-  });
 });
 
