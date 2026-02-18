@@ -83,7 +83,7 @@ function updateGymStatus() {
 // Update every 10 seconds (smooth countdown feel)
 // If you want true "every minute", change 10000 to 60000
 updateGymStatus();
-setInterval(updateGymStatus, 10000);
+setInterval(updateGymStatus, 60000);
 
 // ============================
 // SCROLL REVEAL ANIMATIONS
@@ -273,3 +273,42 @@ if (calcBtn) {
     suggestionEl.style.color = "rgba(232,238,247,0.85)";
   });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const galleryImages = document.querySelectorAll(".gallery-grid img");
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxClose = document.getElementById("lightboxClose");
+
+  if (!galleryImages.length || !lightbox || !lightboxImg || !lightboxClose)
+    return;
+
+  galleryImages.forEach((img) => {
+    img.addEventListener("click", () => {
+      lightbox.style.display = "flex";
+      lightboxImg.src = img.src;
+      document.body.style.overflow = "hidden"; // prevent background scroll
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.style.display = "none";
+    lightboxImg.src = "";
+    document.body.style.overflow = "";
+  }
+
+  lightboxClose.addEventListener("click", closeLightbox);
+
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeLightbox();
+    }
+  });
+});
+
