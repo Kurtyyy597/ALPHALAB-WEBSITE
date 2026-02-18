@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="img/png" href="../../Images/image-removebg-preview (11).png">
-  <link rel="StyleSheet" href="../gym.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="img/png" href="../../Images/image-removebg-preview (11).png" />
+  <link rel="StyleSheet" href="../gym2.css" />
   <title>ALPHA GYM WEBSITE</title>
 </head>
 
@@ -13,7 +13,7 @@
 <header>
   <section class="header-container">
     <div class="img-logo-text">
-      <img class="img-logo" src="../../Images/alpha-logo-original.png">
+      <img class="img-logo" src="../../Images/alpha-logo-original.png" alt="Alpha Gym Logo" />
       <h5 class="img-name"> Alpha </h5>
     </div>
 
@@ -31,67 +31,170 @@
 
 <main>
 
-  <section class="meet-top-container">
-
-    <h2 class="meet-top-title reveal">
+  <!-- TOP / HERO -->
+  <section class="meet-top-container reveal">
+    <h2 class="meet-top-title">
       Meet Our Coaches and Staffs!
     </h2>
+    <p class="meet-top-sub">
+      Our team is built on discipline, results, and real support. Whether you’re a beginner or an athlete, we guide you with proper form, smart programming, and serious motivation.
+    </p>
 
-    <!-- Owner -->
-    <div class="big-boss-card reveal">
-      <img class="img-meet-boss" src="../../Images/kurt-png.png">
-      <h2 class="img-title"> Alpha Lab Owner </h2>
-      <p class="img-name"> Rafael Demagiba </p>
+    <!-- NEW: Trust badges -->
+    <div class="team-badges">
+      <div class="badge">✅ Certified Coaching</div>
+      <div class="badge">🏋️ Strength & Conditioning</div>
+      <div class="badge">💬 Friendly Community</div>
     </div>
+  </section>
 
-    <!-- Staff -->
+  
+  <!-- OWNER / HEAD COACH -->
+  <section class="team-section">
+    <h2 class="team-section-title reveal">Owner</h2>
+
+    <div class="big-boss-card reveal">
+      <div class="boss-img-wrap">
+        <img class="img-meet-boss" src="../../Images/kurt-png.png" alt="Owner Photo" />
+      </div>
+
+      <div class="boss-content">
+        <h3 class="img-title">Alpha Lab Owner</h3>
+        <p class="img-name">Rafael Demagiba</p>
+
+        <!-- NEW -->
+        <p class="boss-bio">
+          Built Alpha Grind Lab with one goal: create a training space where anyone can level up.
+          Focused on discipline, results, and a culture that pushes you forward.
+        </p>
+
+        <div class="boss-tags">
+          <span class="tag">Leadership</span>
+          <span class="tag">Community</span>
+          <span class="tag">Gym Operations</span>
+        </div>
+
+        <div class="boss-cta">
+          <a class="boss-btn" href="../contact/contact.html">Message the Team</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAFF -->
+  <section class="team-section">
+    <h2 class="team-section-title reveal">Staff</h2>
+
     <div class="staff-card-grid">
       <div class="staff-card reveal">
-        <img class="staff-img" src="../../Images/women-new-1-removebg-preview.png">
-        <h2 class="staff-title"> Manager </h2>
-        <h3 class="staff-name"> Trisha Ann Malilin </h3>
+        <div class="avatar-wrap">
+          <img class="staff-img" src="../../Images/women-new-1-removebg-preview.png" alt="Manager" />
+        </div>
+        <h3 class="staff-title">Manager</h3>
+        <p class="staff-name">Trisha Ann Malilin</p>
+        <p class="staff-bio">
+          Handles member support, inquiries, and daily operations to keep the gym smooth and ready.
+        </p>
+        <div class="staff-tags">
+          <span class="tag">Support</span>
+          <span class="tag">Operations</span>
+        </div>
       </div>
 
       <div class="staff-card reveal">
-        <img class="staff-img" src="../../Images/women4-removebg-preview.png">
-        <h2 class="staff-title"> Assistant Manager </h2>
-        <h3 class="staff-name"> Marta Magdangal </h3>
+        <div class="avatar-wrap">
+          <img class="staff-img" src="../../Images/women4-removebg-preview.png" alt="Assistant Manager" />
+        </div>
+        <h3 class="staff-title">Assistant Manager</h3>
+        <p class="staff-name">Marta Magdangal</p>
+        <p class="staff-bio">
+          Helps manage schedules, assists members, and ensures the facility stays clean and organized.
+        </p>
+        <div class="staff-tags">
+          <span class="tag">Scheduling</span>
+          <span class="tag">Facility</span>
+        </div>
       </div>
 
       <div class="staff-card reveal">
-        <img class="staff-img" src="../../Images/men-new-2.png">
-        <h2 class="staff-title"> Coach </h2>
-        <h3 class="staff-name"> Coach JB Navarro </h3>
+        <div class="avatar-wrap">
+          <img class="staff-img" src="../../Images/men-new-2.png" alt="Coach" />
+        </div>
+        <h3 class="staff-title">Coach</h3>
+        <p class="staff-name">Coach JB Navarro</p>
+        <p class="staff-bio">
+          Strength and conditioning coach focused on form, progression, and building confidence.
+        </p>
+        <div class="staff-tags">
+          <span class="tag">Strength</span>
+          <span class="tag">Conditioning</span>
+          <span class="tag">Form</span>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- Barbers -->
+  <!-- BARBERS (if you have this service) -->
+  <section class="team-section">
+    <h2 class="team-section-title reveal">Barbers</h2>
+    <p class="team-section-sub reveal">
+      Fresh cut after training? We’ve got you. Available on selected days — ask the front desk for schedule.
+    </p>
+
     <div class="barbers-card-grid">
       <div class="barbers-card reveal">
-        <img class="barbers-img" src="../../Images/men-new-1-removebg-preview.png">
-        <h2 class="barbers-title"> Barbers </h2>
-        <h3 class="barbers-name"> Delgado </h3>
+        <div class="avatar-wrap">
+          <img class="barbers-img" src="../../Images/men-new-1-removebg-preview.png" alt="Barber" />
+        </div>
+        <h3 class="barbers-title">Barber</h3>
+        <p class="barbers-name">Delgado</p>
+        <p class="staff-bio">Clean fades and sharp lineups. Quick, precise, and consistent.</p>
+        <div class="staff-tags">
+          <span class="tag">Fade</span>
+          <span class="tag">Lineup</span>
+        </div>
       </div>
 
       <div class="barbers-card reveal">
-        <img class="barbers-img" src="../../Images/men-new-2-removebg-preview.png">
-        <h2 class="barbers-title"> Barbers </h2>
-        <h3 class="barbers-name"> Marcus Steele </h3>
+        <div class="avatar-wrap">
+          <img class="barbers-img" src="../../Images/men-new-2-removebg-preview.png" alt="Barber" />
+        </div>
+        <h3 class="barbers-title">Barber</h3>
+        <p class="barbers-name">Marcus Steele</p>
+        <p class="staff-bio">Modern styles, classic cuts, and clean finishes.</p>
+        <div class="staff-tags">
+          <span class="tag">Classic</span>
+          <span class="tag">Modern</span>
+        </div>
       </div>
 
       <div class="barbers-card reveal">
-        <img class="barbers-img" src="../../Images/men1-removebg-preview (1).png">
-        <h2 class="barbers-title"> Barbers </h2>
-        <h3 class="barbers-name"> Marcus Steele </h3>
+        <div class="avatar-wrap">
+          <img class="barbers-img" src="../../Images/men1-removebg-preview (1).png" alt="Barber" />
+        </div>
+        <h3 class="barbers-title">Barber</h3>
+        <p class="barbers-name">Ray Santos</p>
+        <p class="staff-bio">Detail-focused cuts, sharp edges, and clean look every time.</p>
+        <div class="staff-tags">
+          <span class="tag">Detail</span>
+          <span class="tag">Edges</span>
+        </div>
       </div>
     </div>
+  </section>
 
+  <!-- NEW CTA -->
+  <section class="team-cta-container reveal">
+    <h2 class="team-cta-title">Want a Coach or Custom Plan?</h2>
+    <p class="team-cta-paragraph">
+      Message us and we’ll match you with the right program and schedule.
+    </p>
+    <a class="team-cta-btn" href="../contact/contact.html">Contact Us</a>
   </section>
 
 </main>
 
 <script src="/common.js"></script>
 <script src="trainers.js"></script>
-
 </body>
 </html>

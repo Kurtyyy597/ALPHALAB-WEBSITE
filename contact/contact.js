@@ -1,5 +1,12 @@
+/* =========================================================
+   CONTACT.JS — Dark Theme / Modern UI (matches your gym.css)
+   Drop-in replacement for your current contact.js
+   ========================================================= */
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
+  if (!form) return;
+
   const formKey = "alphaGymContactForm";
 
   const nameInput = form.querySelector('input[name="Name"]');
@@ -7,33 +14,309 @@ document.addEventListener("DOMContentLoaded", () => {
   const phoneInput = form.querySelector('input[name="Phone"]');
   const messageInput = form.querySelector('textarea[name="Message"]');
   const paymentSelect = form.querySelector('select[name="Payment Method"]');
+
   const clearBtn = document.querySelector(".clear-btn");
   const submitBtn = form.querySelector(".form-btn");
 
   const MAX_MESSAGE_LENGTH = 300;
 
   /* ==========================
-     PROGRESS BAR
+     1) Inject Theme Styles (for JS-made UI)
+     - Progress bar
+     - Draft popup
+     - Payment info
+     - Success modal
+     - Phone modal
+  ========================== */
+  const injectStyle = document.createElement("style");
+  injectStyle.textContent = `
+    /* --- JS UI: shared --- */
+    .ui-card {
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    /* --- Scroll progress bar (top) --- */
+    #scrollProgress{
+      position: fixed;
+      top: 0; left: 0;
+      height: 4px;
+      width: 0%;
+      z-index: 2000;
+      background: rgba(99, 102, 241, 0.9);
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.25);
+    }
+
+    /* --- Draft popup --- */
+    .draft-popup{
+      position: fixed;
+      right: 18px;
+      bottom: 90px;
+      z-index: 2000;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-weight: 900;
+      letter-spacing: .2px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 200ms ease, transform 200ms ease;
+      background: rgba(34, 211, 238, 0.16);
+      border: 1px solid rgba(34, 211, 238, 0.30);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.55);
+      color: rgba(232,238,247,0.95);
+      user-select: none;
+      pointer-events: none;
+    }
+    .draft-popup.show{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- Form completion bar --- */
+    .form-progress-wrap{
+      margin-bottom: 14px;
+      padding: 14px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .form-progress-text{
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(232,238,247,0.75);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .form-progress-bar{
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .form-progress-fill{
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(34,211,238,0.85), rgba(99,102,241,0.85));
+      transition: width 250ms ease;
+    }
+
+    /* --- Payment info box --- */
+    .payment-info{
+      margin-top: 10px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      display: none;
+      font-size: 0.95rem;
+      color: rgba(232,238,247,0.78);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .payment-info strong{ color: rgba(232,238,247,0.92); }
+
+    /* --- Character counter --- */
+    .char-counter{
+      font-size: 12px;
+      text-align: right;
+      margin-top: 6px;
+      color: rgba(232,238,247,0.55);
+      font-weight: 800;
+    }
+
+    /* --- Valid / invalid visuals (instead of harsh inline borders) --- */
+    .is-valid{
+      border-color: rgba(34,197,94,0.55) !important;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.10) !important;
+    }
+    .is-invalid{
+      border-color: rgba(239,68,68,0.65) !important;
+      box-shadow: 0 0 0 4px rgba(239,68,68,0.10) !important;
+    }
+
+    /* --- Success Modal --- */
+    .success-modal{
+      position: fixed;
+      inset: 0;
+      z-index: 4000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+    .success-backdrop{
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(6px);
+    }
+    .success-box{
+      position: relative;
+      z-index: 2;
+      width: min(460px, 94%);
+      padding: 18px 16px;
+      border-radius: 18px;
+      background: rgba(12,16,22,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 22px 60px rgba(0,0,0,0.65);
+      text-align: center;
+      transform: translateY(6px);
+      animation: popIn 200ms ease forwards;
+    }
+    .success-box h2{
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+    }
+    .success-box p{
+      margin: 0 0 14px;
+      color: rgba(232,238,247,0.75);
+    }
+    .success-actions{
+      display: grid;
+      gap: 10px;
+    }
+    .success-btn{
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, border 160ms ease;
+    }
+    .success-btn.primary{
+      background: rgba(99,102,241,0.26);
+      border: 1px solid rgba(99,102,241,0.48);
+      box-shadow: 0 14px 28px rgba(99,102,241,0.16);
+    }
+    .success-btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    @keyframes popIn{
+      to { transform: translateY(0); }
+    }
+
+    /* --- Phone Modal --- */
+    #phoneModal{
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 4500;
+      padding: 18px;
+    }
+    .phone-modal-backdrop{
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(6px);
+    }
+    .phone-modal{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%) scale(0.96);
+      width: min(420px, 94%);
+      background: rgba(12,16,22,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.65);
+      color: rgba(232,238,247,0.92);
+      padding: 18px 16px;
+      text-align: center;
+      animation: phonePop 180ms ease forwards;
+    }
+    @keyframes phonePop{
+      to { transform: translate(-50%,-50%) scale(1); }
+    }
+    .phone-modal h3{
+      margin: 0 0 8px;
+    }
+    .phone-number{
+      margin: 12px 0;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+      color: rgba(232,238,247,0.85);
+    }
+    .phone-actions{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .phone-actions button{
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 12px 14px;
+      border-radius: 14px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-weight: 900;
+      transition: transform 160ms ease, background 160ms ease, border 160ms ease;
+    }
+    .phone-actions button:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    #copyNumber{
+      background: rgba(34,211,238,0.16);
+      border: 1px solid rgba(34,211,238,0.30);
+    }
+    #closeModal{
+      background: rgba(239,68,68,0.14);
+      border: 1px solid rgba(239,68,68,0.30);
+    }
+
+    /* --- Small tap animation --- */
+    .call-animate{
+      animation: tapPulse 220ms ease;
+    }
+    @keyframes tapPulse{
+      50% { transform: scale(0.98); }
+    }
+  `;
+  document.head.appendChild(injectStyle);
+
+  /* ==========================
+     2) Scroll progress bar (top)
+  ========================== */
+  let scrollBar = document.getElementById("scrollProgress");
+  if (!scrollBar) {
+    scrollBar = document.createElement("div");
+    scrollBar.id = "scrollProgress";
+    document.body.appendChild(scrollBar);
+  }
+
+  window.addEventListener("scroll", () => {
+    const scrollTop = window.scrollY;
+    const docHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    scrollBar.style.width = progress + "%";
+  });
+
+  /* ==========================
+     3) Progress bar (form completion)
   ========================== */
   const progressWrap = document.createElement("div");
-  progressWrap.style.marginBottom = "15px";
+  progressWrap.className = "form-progress-wrap";
 
   const progressText = document.createElement("div");
-  progressText.style.fontSize = "12px";
-  progressText.style.marginBottom = "5px";
-  progressText.textContent = "Form Completion: 0%";
+  progressText.className = "form-progress-text";
+  progressText.innerHTML = `<span>Form Completion</span><span id="progressPercent">0%</span>`;
 
   const progressBar = document.createElement("div");
-  progressBar.style.height = "8px";
-  progressBar.style.background = "#ddd";
-  progressBar.style.borderRadius = "5px";
-  progressBar.style.overflow = "hidden";
+  progressBar.className = "form-progress-bar";
 
   const progressFill = document.createElement("div");
-  progressFill.style.height = "100%";
-  progressFill.style.width = "0%";
-  progressFill.style.background = "#2ecc71";
-  progressFill.style.transition = "0.3s ease";
+  progressFill.className = "form-progress-fill";
 
   progressBar.appendChild(progressFill);
   progressWrap.appendChild(progressText);
@@ -41,144 +324,168 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.prepend(progressWrap);
 
+  const progressPercentEl = progressText.querySelector("#progressPercent");
+
   function updateProgress() {
     const requiredFields = [...form.querySelectorAll("[required]")];
-    const filled = requiredFields.filter(f => f.value.trim()).length;
+    const filled = requiredFields.filter((f) =>
+      (f.value || "").toString().trim(),
+    ).length;
     const percent = Math.round((filled / requiredFields.length) * 100);
 
     progressFill.style.width = percent + "%";
-    progressText.textContent = `Form Completion: ${percent}%`;
+    progressPercentEl.textContent = percent + "%";
   }
 
   /* ==========================
-     PAYMENT INFO BOX
+     4) Payment info box (theme)
   ========================== */
   const paymentInfo = document.createElement("div");
-  paymentInfo.style.marginTop = "10px";
-  paymentInfo.style.padding = "10px";
-  paymentInfo.style.borderRadius = "8px";
-  paymentInfo.style.background = "#f4f4f4";
-  paymentInfo.style.display = "none";
-  paymentInfo.style.fontSize = "14px";
-
-  paymentSelect.parentElement.appendChild(paymentInfo);
+  paymentInfo.className = "payment-info";
+  paymentSelect?.parentElement?.appendChild(paymentInfo);
 
   function updatePaymentInfo() {
+    if (!paymentSelect) return;
     const method = paymentSelect.value;
+
+    if (!method) {
+      paymentInfo.style.display = "none";
+      return;
+    }
+
     paymentInfo.style.display = "block";
 
     if (method === "GCash") {
-      paymentInfo.innerHTML = "📱 <strong>GCash:</strong> You will receive payment instructions via email after submitting this form.";
+      paymentInfo.innerHTML =
+        "📱 <strong>GCash:</strong> Payment instructions will be sent after you submit the form.";
     } else if (method === "Online Bank") {
-      paymentInfo.innerHTML = "🏦 <strong>Online Bank:</strong> Bank details will be sent to your email after form submission.";
+      paymentInfo.innerHTML =
+        "🏦 <strong>Online Bank:</strong> Bank details will be sent after you submit the form.";
     } else if (method === "Cash") {
-      paymentInfo.innerHTML = "💵 <strong>Cash:</strong> Please pay at the front desk when you visit Alpha Gym.";
+      paymentInfo.innerHTML =
+        "💵 <strong>Cash:</strong> Pay at the front desk when you visit Alpha Gym.";
     } else {
       paymentInfo.style.display = "none";
     }
   }
 
-  paymentSelect.addEventListener("change", updatePaymentInfo);
+  paymentSelect?.addEventListener("change", () => {
+    updatePaymentInfo();
+    updateProgress();
+  });
 
   /* ==========================
-     DRAFT POPUP
+     5) Draft popup (theme)
   ========================== */
   const popup = document.createElement("div");
   popup.className = "draft-popup";
   popup.textContent = "Draft Saved ✅";
   document.body.appendChild(popup);
 
+  let popupTimer;
   function showPopup() {
+    clearTimeout(popupTimer);
     popup.classList.add("show");
-    setTimeout(() => popup.classList.remove("show"), 1500);
+    popupTimer = setTimeout(() => popup.classList.remove("show"), 900);
   }
 
   /* ==========================
-     CHARACTER COUNTER
+     6) Character counter (theme)
   ========================== */
   const counter = document.createElement("div");
-  counter.style.fontSize = "12px";
-  counter.style.textAlign = "right";
-  counter.style.marginTop = "5px";
+  counter.className = "char-counter";
   counter.textContent = `0 / ${MAX_MESSAGE_LENGTH}`;
-  messageInput.parentElement.appendChild(counter);
+  messageInput?.parentElement?.appendChild(counter);
 
   function updateCounter() {
-    const length = messageInput.value.length;
-    counter.textContent = `${length} / ${MAX_MESSAGE_LENGTH}`;
+    if (!messageInput) return;
 
+    const length = messageInput.value.length;
     if (length > MAX_MESSAGE_LENGTH) {
-      counter.style.color = "red";
       messageInput.value = messageInput.value.slice(0, MAX_MESSAGE_LENGTH);
-    } else {
-      counter.style.color = "#888";
     }
+    counter.textContent = `${messageInput.value.length} / ${MAX_MESSAGE_LENGTH}`;
+
+    const ratio = messageInput.value.length / MAX_MESSAGE_LENGTH;
+    if (ratio > 0.9) counter.style.color = "rgba(245, 158, 11, 0.95)";
+    else counter.style.color = "rgba(232,238,247,0.55)";
   }
 
   /* ==========================
-     VALIDATION HELPERS
+     7) Validation helpers (theme classes)
   ========================== */
   function setValid(input) {
-    input.style.borderColor = "#2ecc71";
+    if (!input) return;
+    input.classList.remove("is-invalid");
+    input.classList.add("is-valid");
   }
 
   function setInvalid(input) {
-    input.style.borderColor = "#e74c3c";
+    if (!input) return;
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
   }
 
   function validateEmail() {
+    if (!emailInput) return;
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    pattern.test(emailInput.value) ? setValid(emailInput) : setInvalid(emailInput);
+    pattern.test(emailInput.value.trim())
+      ? setValid(emailInput)
+      : setInvalid(emailInput);
   }
 
   function validatePhone() {
+    if (!phoneInput) return;
     const digits = phoneInput.value.replace(/\D/g, "");
     digits.length === 11 ? setValid(phoneInput) : setInvalid(phoneInput);
   }
 
   function validateRequired(input) {
+    if (!input) return;
     input.value.trim() ? setValid(input) : setInvalid(input);
   }
 
   /* ==========================
-     PHONE AUTO FORMAT
+     8) Phone auto format
   ========================== */
   function formatPhone(value) {
     const digits = value.replace(/\D/g, "").slice(0, 11);
+    if (digits.length < 11) return digits;
     return digits.replace(/(\d{4})(\d{3})(\d{4})/, "$1 $2 $3");
   }
 
-  phoneInput.addEventListener("input", () => {
+  phoneInput?.addEventListener("input", () => {
     phoneInput.value = formatPhone(phoneInput.value);
     validatePhone();
     updateProgress();
   });
 
   /* ==========================
-     LIVE VALIDATION
+     9) Live validation
   ========================== */
-  nameInput.addEventListener("input", () => {
+  nameInput?.addEventListener("input", () => {
     validateRequired(nameInput);
     updateProgress();
   });
 
-  emailInput.addEventListener("input", () => {
+  emailInput?.addEventListener("input", () => {
     validateEmail();
     updateProgress();
   });
 
-  messageInput.addEventListener("input", () => {
+  messageInput?.addEventListener("input", () => {
     validateRequired(messageInput);
     updateCounter();
     updateProgress();
   });
 
+  form.addEventListener("change", updateProgress);
+
   /* ==========================
-     LOAD SAVED DATA
+     10) Load saved data
   ========================== */
   const savedData = JSON.parse(localStorage.getItem(formKey)) || {};
-
-  [...form.elements].forEach(field => {
+  [...form.elements].forEach((field) => {
     if (field.name && savedData[field.name]) {
       field.value = savedData[field.name];
     }
@@ -189,240 +496,209 @@ document.addEventListener("DOMContentLoaded", () => {
   updatePaymentInfo();
 
   /* ==========================
-     SAVE DRAFT
+     11) Save draft
   ========================== */
+  let draftTimer;
   form.addEventListener("input", () => {
     const data = {};
+    [...form.elements].forEach((field) => {
+      if (field.name) data[field.name] = field.value;
+    });
+    localStorage.setItem(formKey, JSON.stringify(data));
 
-    [...form.elements].forEach(field => {
-      if (field.name) {
-        data[field.name] = field.value;
-      }
+    // debounce popup so it doesn't flash too much
+    clearTimeout(draftTimer);
+    draftTimer = setTimeout(showPopup, 150);
+  });
+
+  /* ==========================
+     12) Clear form
+  ========================== */
+  clearBtn?.addEventListener("click", () => {
+    if (!confirm("Are you sure you want to clear the form?")) return;
+
+    form.reset();
+    localStorage.removeItem(formKey);
+
+    // remove validation styles
+    [nameInput, emailInput, phoneInput, messageInput].forEach((el) => {
+      if (!el) return;
+      el.classList.remove("is-valid", "is-invalid");
     });
 
-    localStorage.setItem(formKey, JSON.stringify(data));
-    showPopup();
+    paymentInfo.style.display = "none";
+    updateCounter();
+    updateProgress();
   });
 
   /* ==========================
-     CLEAR FORM
-  ========================== */
-  clearBtn.addEventListener("click", () => {
-    if (confirm("Are you sure you want to clear the form?")) {
-      form.reset();
-      localStorage.removeItem(formKey);
-      updateCounter();
-      updateProgress();
-      paymentInfo.style.display = "none";
-    }
-  });
-
-  /* ==========================
-     SUBMIT LOADING + SUCCESS
-  ========================== */
-
-  /* ==========================
-     SUCCESS MESSAGE MODAL
+     13) Success modal (theme)
+     NOTE: Formspree redirects by default.
+     To show modal without leaving page, prevent default + fetch.
   ========================== */
   function showSuccessMessage() {
     const modal = document.createElement("div");
-    modal.style.position = "fixed";
-    modal.style.top = "0";
-    modal.style.left = "0";
-    modal.style.width = "100%";
-    modal.style.height = "100%";
-    modal.style.background = "rgba(0,0,0,0.6)";
-    modal.style.display = "flex";
-    modal.style.alignItems = "center";
-    modal.style.justifyContent = "center";
-    modal.style.zIndex = "9999";
+    modal.className = "success-modal";
 
-    const box = document.createElement("div");
-    box.style.background = "#fff";
-    box.style.padding = "30px";
-    box.style.borderRadius = "12px";
-    box.style.textAlign = "center";
-    box.style.maxWidth = "350px";
-    box.innerHTML = `
-      <h2>✅ Message Sent!</h2>
-      <p>Thank you for contacting Alpha Gym. We'll get back to you soon.</p>
-      <button style="margin-top:15px;padding:10px 20px;border:none;border-radius:8px;background:#2ecc71;color:white;cursor:pointer;">
-        Close
-      </button>
+    modal.innerHTML = `
+      <div class="success-backdrop"></div>
+      <div class="success-box">
+        <h2>✅ Message Sent!</h2>
+        <p>Thank you for contacting Alpha Gym. We'll get back to you soon.</p>
+        <div class="success-actions">
+          <button class="success-btn primary" id="successClose">Close</button>
+        </div>
+      </div>
     `;
 
-    box.querySelector("button").addEventListener("click", () => {
-      document.body.removeChild(modal);
-    });
-
-    modal.appendChild(box);
     document.body.appendChild(modal);
+
+    const close = () => modal.remove();
+    modal.querySelector("#successClose")?.addEventListener("click", close);
+    modal.querySelector(".success-backdrop")?.addEventListener("click", close);
+    document.addEventListener(
+      "keydown",
+      (e) => {
+        if (e.key === "Escape") close();
+      },
+      { once: true },
+    );
   }
-});
 
-document.addEventListener("DOMContentLoaded", () => {
-  const phoneLink = document.getElementById("phoneLink");
-  if (!phoneLink) return;
+  // Intercept submit and send via fetch so you stay on the page.
+  form.addEventListener("submit", async (e) => {
+    // If you prefer normal Formspree redirect, delete this whole submit listener.
+    e.preventDefault();
 
-  const PHONE_NUMBER = "0954 302 9792";
-  const PHONE_TEL = "+639543029792";
-
-  // Create modal
-  const modal = document.createElement("div");
-  modal.id = "phoneModal";
-  modal.innerHTML = `
-    <div class="phone-modal-backdrop"></div>
-    <div class="phone-modal">
-      <h3>📞 Call Us</h3>
-      <p class="phone-number">${PHONE_NUMBER}</p>
-      <div class="phone-actions">
-        <button id="copyNumber">📋 Copy Number</button>
-        <button id="closeModal">❌ Close</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  // Add styles dynamically
-  const style = document.createElement("style");
-  style.textContent = `
-    #phoneModal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      z-index: 9999;
-      font-family: Arial, sans-serif;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
     }
 
-    .phone-modal-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-    }
+    try {
+      const formData = new FormData(form);
 
-    .phone-modal {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      background: #111;
-      color: white;
-      padding: 25px;
-      border-radius: 12px;
-      min-width: 280px;
-      text-align: center;
-      animation: modalPop 0.2s ease forwards;
-    }
+      const res = await fetch(form.action, {
+        method: form.method || "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      });
 
-    .phone-number {
-      font-size: 1.2rem;
-      margin: 15px 0;
-      letter-spacing: 1px;
-    }
+      if (res.ok) {
+        showSuccessMessage();
+        form.reset();
+        localStorage.removeItem(formKey);
+        paymentInfo.style.display = "none";
+        updateCounter();
+        updateProgress();
 
-    .phone-actions {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .phone-actions button {
-      border: none;
-      padding: 10px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      background: #ff3c3c;
-      color: white;
-      transition: transform 0.1s ease, opacity 0.1s ease;
-    }
-
-    .phone-actions button:hover {
-      opacity: 0.85;
-      transform: scale(1.05);
-    }
-
-    @keyframes modalPop {
-      to {
-        transform: translate(-50%, -50%) scale(1);
+        [nameInput, emailInput, phoneInput, messageInput].forEach((el) => {
+          if (!el) return;
+          el.classList.remove("is-valid", "is-invalid");
+        });
+      } else {
+        alert("Something went wrong. Please try again.");
       }
-    }
-
-    .call-animate {
-      animation: pulse 0.4s ease;
-    }
-
-    @keyframes pulse {
-      50% {
-        transform: scale(0.95);
+    } catch (err) {
+      alert("Network error. Please check your internet and try again.");
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send Message";
       }
-    }
-  `;
-  document.head.appendChild(style);
-
-  // Helpers
-  function isMobile() {
-    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  }
-
-  function showModal() {
-    modal.style.display = "block";
-  }
-
-  function hideModal() {
-    modal.style.display = "none";
-  }
-
-  // Click behavior
-  phoneLink.addEventListener("click", (e) => {
-    if (isMobile()) {
-      // Mobile tap animation
-      phoneLink.classList.add("call-animate");
-      setTimeout(() => {
-        phoneLink.classList.remove("call-animate");
-        window.location.href = `tel:${PHONE_TEL}`;
-      }, 150);
-    } else {
-      e.preventDefault();
-      showModal();
     }
   });
 
-  // Modal actions
-  document.getElementById("closeModal").addEventListener("click", hideModal);
-  document
-    .getElementById("copyNumber")
-    .addEventListener("click", () => {
-      navigator.clipboard.writeText(PHONE_NUMBER).then(() => {
-        const btn = document.getElementById("copyNumber");
-        btn.textContent = "✅ Copied!";
-        setTimeout(() => (btn.textContent = "📋 Copy Number"), 1500);
-      });
+  /* =========================================================
+     PHONE MODAL (Desktop) + Direct Call (Mobile)
+     Uses your existing #phoneLink
+  ========================================================= */
+  const phoneLink = document.getElementById("phoneLink");
+  if (phoneLink) {
+    const PHONE_NUMBER = "0954 302 9792";
+    const PHONE_TEL = "+639543029792";
+
+    // Create modal once
+    let phoneModal = document.getElementById("phoneModal");
+    if (!phoneModal) {
+      phoneModal = document.createElement("div");
+      phoneModal.id = "phoneModal";
+      phoneModal.innerHTML = `
+        <div class="phone-modal-backdrop"></div>
+        <div class="phone-modal">
+          <h3>📞 Call Us</h3>
+          <p class="phone-number">${PHONE_NUMBER}</p>
+          <div class="phone-actions">
+            <button id="copyNumber">📋 Copy</button>
+            <button id="closeModal">❌ Close</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(phoneModal);
+    }
+
+    function isMobile() {
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    function showModal() {
+      phoneModal.style.display = "block";
+    }
+
+    function hideModal() {
+      phoneModal.style.display = "none";
+    }
+
+    phoneLink.addEventListener("click", (e) => {
+      if (isMobile()) {
+        phoneLink.classList.add("call-animate");
+        setTimeout(() => {
+          phoneLink.classList.remove("call-animate");
+          window.location.href = `tel:${PHONE_TEL}`;
+        }, 150);
+      } else {
+        e.preventDefault();
+        showModal();
+      }
     });
 
-  modal
-    .querySelector(".phone-modal-backdrop")
-    .addEventListener("click", hideModal);
+    phoneModal
+      .querySelector("#closeModal")
+      ?.addEventListener("click", hideModal);
+    phoneModal
+      .querySelector(".phone-modal-backdrop")
+      ?.addEventListener("click", hideModal);
+
+    phoneModal
+      .querySelector("#copyNumber")
+      ?.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(PHONE_NUMBER);
+          const btn = phoneModal.querySelector("#copyNumber");
+          btn.textContent = "✅ Copied";
+          setTimeout(() => (btn.textContent = "📋 Copy"), 1200);
+        } catch {
+          alert("Copy failed. Please copy manually: " + PHONE_NUMBER);
+        }
+      });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") hideModal();
+    });
+  }
+
+  /* =========================================================
+     Contact page reveal animation (your HTML uses .reveal)
+     Adds .show as you scroll
+  ========================================================= */
+  const revealItems = document.querySelectorAll(".reveal");
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("show");
+      });
+    },
+    { threshold: 0.15 },
+  );
+  revealItems.forEach((el) => revealObserver.observe(el));
 });
-
-// ============================
-// SCROLL PROGRESS BAR (TOP)
-// ============================
-document.addEventListener("DOMContentLoaded", () => {
-  // Create bar
-  const progressBar = document.createElement("div");
-  progressBar.id = "scrollProgress";
-  document.body.appendChild(progressBar);
-
-  // Update on scroll
-  window.addEventListener("scroll", () => {
-    const scrollTop = window.scrollY;
-    const docHeight =
-      document.documentElement.scrollHeight - window.innerHeight;
-
-    const progress = (scrollTop / docHeight) * 100;
-    progressBar.style.width = progress + "%";
-  });
-});
-
-
-
