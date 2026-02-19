@@ -110,3 +110,159 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  // =============================
+  // Existing Lightbox Elements
+  // =============================
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxClose = document.getElementById("lightboxClose");
+
+  const openLightbox = (src, alt = "Image") => {
+    if (!lightbox || !lightboxImg) return;
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    lightbox.style.display = "flex";
+  };
+
+  const closeLightbox = () => {
+    if (!lightbox) return;
+    lightbox.style.display = "none";
+    if (lightboxImg) lightboxImg.src = "";
+  };
+
+  if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
+
+  if (lightbox) {
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeLightbox();
+  });
+
+  // =============================
+  // Transformations -> Lightbox
+  // =============================
+  document.querySelectorAll(".open-lightbox").forEach((img) => {
+    img.addEventListener("click", () => openLightbox(img.src, img.alt));
+  });
+
+  // =============================
+  // Scroll Reveal (Sections + Items)
+  // =============================
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.18 },
+  );
+
+  document
+    .querySelectorAll(".reveal")
+    .forEach((el) => revealObserver.observe(el));
+
+  // Stagger items (timeline, cards)
+  const items = document.querySelectorAll(".reveal-item");
+  const itemObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        // Stagger inside same container
+        const siblings = entry.target.parentElement?.querySelectorAll(
+          ".reveal-item",
+        ) || [entry.target];
+        siblings.forEach((sib, i) => {
+          setTimeout(() => sib.classList.add("show"), i * 120);
+        });
+
+        itemObserver.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.2 },
+  );
+
+  items.forEach((el) => itemObserver.observe(el));
+
+  // =============================
+  // Counter Animation (Stats)
+  // =============================
+  const counters = document.querySelectorAll(
+    ".about-stats-container h2[data-target]",
+  );
+
+  const animateCounter = (el) => {
+    const target = Number(el.getAttribute("data-target") || "0");
+    const duration = 1200; // ms
+    const startTime = performance.now();
+
+    const step = (now) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const value = Math.floor(progress * target);
+      el.textContent = value.toLocaleString();
+
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString();
+    };
+
+    requestAnimationFrame(step);
+  };
+
+  const counterObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          counters.forEach((c) => animateCounter(c));
+          counterObserver.disconnect();
+        }
+      });
+    },
+    { threshold: 0.35 },
+  );
+
+  const statsSection = document.querySelector(".about-stats-container");
+  if (statsSection) counterObserver.observe(statsSection);
+
+  // =============================
+  // Parallax Background (Founder + Timeline)
+  // =============================
+  const parallaxSections = document.querySelectorAll(
+    ".founder-container, .timeline-container",
+  );
+
+  const onScrollParallax = () => {
+    parallaxSections.forEach((sec) => {
+      const rect = sec.getBoundingClientRect();
+      const offset = (rect.top / window.innerHeight) * 30; // adjust intensity
+      sec.style.setProperty("--parallaxY", `${offset}px`);
+    });
+  };
+
+  // Apply CSS variable transform to ::before using inline style trick
+  // We'll update the background pseudo-element by updating background-position via CSS variable.
+  parallaxSections.forEach((sec) => {
+    // This allows the CSS ::before to read a variable
+    sec.style.setProperty("--parallaxY", "0px");
+  });
+
+  // Add CSS rule dynamically (so ::before can use var)
+  const style = document.createElement("style");
+  style.textContent = `
+    .founder-container::before,
+    .timeline-container::before {
+      transform: translateY(var(--parallaxY));
+    }
+  `;
+  document.head.appendChild(style);
+
+  window.addEventListener("scroll", onScrollParallax, { passive: true });
+  onScrollParallax();
+});

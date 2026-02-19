@@ -39,23 +39,45 @@
 
 <main>
 
-  <!-- Contact Top -->
-  <section class="contact-top-container reveal">
-    <h2 class="contact-top-title">Are you ready? Get In Touch With Us</h2>
-    <p class="contact-top-sub">
-      Ready to start your fitness journey? Reach out to Alpha Gym and let’s build your strongest self.
+  <section class="contact-hero reveal">
+  <div class="contact-hero-left">
+    <h2 class="contact-hero-title">Ready to Level Up? Let’s Talk.</h2>
+    <p class="contact-hero-sub">
+      Whether you're a beginner or an athlete — we’ll guide you with structure, coaching, and a community that doesn’t quit.
     </p>
-  </section>
 
-  <section class="contact-extra-container reveal">
-  <div class="contact-extra-card">
-    <h3>🔥 Free First Session (Limited Slots)</h3>
-    <p>New members can request a free guided session to learn proper form and get a starter program.</p>
+    <div class="contact-badges">
+      <div class="badge">⚡ Fast Reply (24 hrs)</div>
+      <div class="badge">✅ Beginner Friendly</div>
+      <div class="badge">🏋️ Results-Driven Coaching</div>
+      <div class="badge">💈 Barber Shop Inside</div>
+    </div>
+
+    <div class="contact-hero-actions">
+      <a href="#booking" class="hero-btn hero-primary">Book Free Trial</a>
+      <a href="#contactForm" class="hero-btn hero-secondary">Send a Message</a>
+    </div>
   </div>
 
-  <div class="contact-extra-card">
-    <h3>✅ Fast Reply</h3>
-    <p>We usually respond within 24 hours. For urgent questions, call us directly.</p>
+  <div class="contact-hero-right">
+    <div class="hero-card">
+      <h3>🔥 Free First Session</h3>
+      <p>Limited slots — learn proper form + get a starter program.</p>
+      <div class="hero-mini">
+        <div class="mini-box">
+          <span class="mini-label">Response</span>
+          <span class="mini-value">Within 24 hrs</span>
+        </div>
+        <div class="mini-box">
+          <span class="mini-label">Walk-ins</span>
+          <span class="mini-value">Allowed</span>
+        </div>
+        <div class="mini-box">
+          <span class="mini-label">Location</span>
+          <span class="mini-value">Choose Branch</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -84,6 +106,33 @@
       </div>
     </div>
   </section>
+
+  <!-- BOOKING (CONVERSION) -->
+<section class="booking-container reveal" id="booking">
+  <h2 class="booking-title">Book in 30 Seconds</h2>
+  <p class="booking-subtitle">Choose what you want — we’ll contact you to confirm.</p>
+
+  <div class="booking-grid">
+    <div class="booking-card">
+      <h3>🏋️ Free Trial Session</h3>
+      <p>Perfect for first-timers. Learn form, get a plan, meet a coach.</p>
+      <button class="booking-btn" type="button" data-fill="Free Trial Session">Book Free Trial</button>
+    </div>
+
+    <div class="booking-card">
+      <h3>🏛 Gym Tour</h3>
+      <p>See the facility, ask questions, and choose the best program.</p>
+      <button class="booking-btn" type="button" data-fill="Gym Tour">Book a Tour</button>
+    </div>
+
+    <div class="booking-card">
+      <h3>💈 Barber Appointment</h3>
+      <p>Train hard, look sharp. Cuts, fades, grooming inside Alpha.</p>
+      <button class="booking-btn" type="button" data-fill="Barber Appointment">Book Barber</button>
+    </div>
+  </div>
+</section>
+
 
   <!-- Contact Info -->
   <section class="contact-info-container">
@@ -120,13 +169,24 @@
   </section>
 
   <!-- Contact Form -->
-  <section class="contact-form-container reveal">
+  <section class="contact-form-container reveal"  id="contactForm">
     <h2 class="form-title">Send Us a Message</h2>
     <p class="form-sub">
       Fill out the form below and we’ll get back to you as soon as possible.
     </p>
 
     <form action="https://formspree.io/f/xrepvoey" method="POST">
+      <div class="form-group">
+  <select name="Inquiry Type" id="inquiryType" required>
+    <option value="" disabled selected>What do you want to book or ask?</option>
+    <option value="Membership Inquiry">Membership Inquiry</option>
+    <option value="Free Trial Session">Free Trial Session</option>
+    <option value="Gym Tour">Gym Tour</option>
+    <option value="Personal Coaching">Personal Coaching</option>
+    <option value="Barber Appointment">Barber Appointment</option>
+    <option value="Other">Other</option>
+  </select>
+</div>
 
       <div class="form-group">
         <input type="text" name="Name" required placeholder="type your name">
@@ -174,19 +234,104 @@
         We will contact you once we receive your message.
       </p>
 
-      <button type="button" class="clear-btn">Clear Form</button>
+      <button type="button" class="clear-btn"  id="clearForm">Clear Form</button>
       <button type="submit" class="form-btn">Send Message</button>
     </form>
   </section>
 
-<section class="location-container">
-      <h2 class="location-intro"> Find Us </h2>
-      <p class="location-title-description"> Maps: <span class="alpha-name"> Alpha Grind Lab - Maypajo Caloocan city  </span> </p>
+  <!-- CONTACT FAQ -->
+<section class="contact-faq-container reveal" id="contactFAQ">
+  <h2 class="contact-faq-title">Quick Answers</h2>
+
+  <div class="faq-accordion">
+    <button class="faq-q" type="button">Do you accept beginners?</button>
+    <div class="faq-a"><p>Yes. Beginners are welcome — coaches will guide you with proper form and a starter program.</p></div>
+
+    <button class="faq-q" type="button">Do you allow walk-ins?</button>
+    <div class="faq-a"><p>Yes. Walk-ins are allowed, but booking is recommended for faster assistance.</p></div>
+
+    <button class="faq-q" type="button">How fast do you reply?</button>
+    <div class="faq-a"><p>Usually within 24 hours. For urgent concerns, please call the branch directly.</p></div>
+
+    <button class="faq-q" type="button">Do you have coaching?</button>
+    <div class="faq-a"><p>Yes. You can choose personal coaching or guided programming depending on your goal.</p></div>
+
+    <button class="faq-q" type="button">Is the barber shop available daily?</button>
+    <div class="faq-a"><p>Availability depends on the branch schedule. Book via the form to confirm a slot.</p></div>
+  </div>
+</section>
+
+
+<!-- BRANCH SELECTOR (DYNAMIC) -->
+<section class="branch-select-container reveal" id="branchSelect">
+  <h2 class="branch-select-title">Choose Your Branch</h2>
+  <p class="branch-select-subtitle">Pick a branch — map & contact will update automatically.</p>
+
+  <div class="branch-select-grid">
+    <div class="branch-select-card">
+      <label class="branch-label" for="branchPicker">Branch</label>
+      <select id="branchPicker" class="branch-picker">
+        <option value="maypajo" selected>Alpha Grind Lab – Maypajo (Caloocan)</option>
+        <option value="north">Alpha Gym Sangandaan </option>
+        <option value="south">Alpha Gym Longos </option>
+        <option value="east">Alpha Gym Malabon </option>
+        <option value="west">Alpha Gym Recto </option>
+      </select>
+
+      <div class="branch-details">
+        <p><b>📍 Address:</b> <span id="branchAddress">Alpha Grind Lab Maypajo Caloocan</span></p>
+        <p><b>📞 Phone:</b> <a id="branchPhone" href="tel:09694828850">0954 302 9792</a></p>
+        <p><b>⏰ Hours:</b> <span id="branchHours">Mon – Sat: 8:00 AM – 11:00 PM • Sun: 9:00 AM – 9:00 PM</span></p>
+      </div>
+
+      <div class="branch-quick">
+        <a id="branchDirections" class="branch-quick-btn" href="#" target="_blank">Get Directions</a>
+        <button id="copyBranch" class="branch-quick-btn ghost" type="button">Copy Address</button>
+      </div>
+    </div>
+
+    <div class="branch-map-card">
       <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.2628023839366!2d120.97298157517585!3d14.641017876085765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b55e5088d4d1%3A0x27dd5f121caca43d!2sAlpha%20Grind%20Lab%20-%20Maypajo%20Caloocan!5e0!3m2!1sen!2sph!4v1769251884798!5m2!1sen!2sph"
-      class="iframe"> 
-    </iframe>
-    </section>
+        id="branchMap"
+        class="iframe"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.2628023839366!2d120.97298157517585!3d14.641017876085765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b55e5088d4d1%3A0x27dd5f121caca43d!2sAlpha%20Grind%20Lab%20-%20Maypajo%20Caloocan!5e0!3m2!1sen!2sph!4v1769251884798!5m2!1sen!2sph"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST / COMMUNITY -->
+<section class="contact-trust-container reveal">
+  <h2 class="contact-trust-title">Community Built. Results Proven.</h2>
+
+  <div class="trust-grid">
+    <div class="trust-card">
+      <p>“Best gym community in Caloocan. Coaches are serious and respectful.”</p>
+      <span>— Member Review</span>
+    </div>
+    <div class="trust-card">
+      <p>“I started as a beginner. Now I’m consistent and stronger every month.”</p>
+      <span>— Member Review</span>
+    </div>
+    <div class="trust-card">
+      <p>“Training + barber inside? Saves time and keeps you sharp.”</p>
+      <span>— Member Review</span>
+    </div>
+  </div>
+</section>
+
+<!-- FLOATING QUICK CHAT -->
+<div class="quickchat">
+  <a class="quickchat-btn messenger" href="https://m.me/alphagrindlabmaypajo" target="_blank" aria-label="Chat on Messenger">
+    💬
+  </a>
+  <a class="quickchat-btn call" href="tel:09694828850" aria-label="Call Alpha Gym">
+    📞
+  </a>
+</div>
+
     
   </main>
  <script src="/common.js"></script>

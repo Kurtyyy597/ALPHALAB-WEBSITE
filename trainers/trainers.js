@@ -56,3 +56,62 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  // ===== LIGHTBOX =====
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxClose = document.getElementById("lightboxClose");
+
+  const openLightbox = (src, alt = "Image") => {
+    if (!lightbox || !lightboxImg) return;
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    lightbox.style.display = "flex";
+  };
+
+  const closeLightbox = () => {
+    if (!lightbox) return;
+    lightbox.style.display = "none";
+    if (lightboxImg) lightboxImg.src = "";
+  };
+
+  document.querySelectorAll(".open-lightbox").forEach((img) => {
+    img.addEventListener("click", () => openLightbox(img.src, img.alt));
+  });
+
+  lightboxClose?.addEventListener("click", closeLightbox);
+
+  lightbox?.addEventListener("click", (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeLightbox();
+  });
+
+  // ===== SEARCH + FILTER =====
+  const search = document.getElementById("teamSearch");
+  const filter = document.getElementById("teamFilter");
+  const cards = Array.from(document.querySelectorAll(".team-card"));
+
+  const apply = () => {
+    const q = (search?.value || "").toLowerCase().trim();
+    const type = filter?.value || "all";
+
+    cards.forEach((card) => {
+      const data = (card.getAttribute("data-name") || "").toLowerCase();
+      const ctype = card.getAttribute("data-type") || "all";
+
+      const matchText = !q || data.includes(q);
+      const matchType = type === "all" || ctype === type;
+
+      card.style.display = matchText && matchType ? "" : "none";
+    });
+  };
+
+  search?.addEventListener("input", apply);
+  filter?.addEventListener("change", apply);
+  apply();
+});
+

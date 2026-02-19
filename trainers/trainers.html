@@ -33,14 +33,11 @@
 
   <!-- TOP / HERO -->
   <section class="meet-top-container reveal">
-    <h2 class="meet-top-title">
-      Meet Our Coaches and Staffs!
-    </h2>
+    <h2 class="meet-top-title">Meet Our Coaches and Staffs!</h2>
     <p class="meet-top-sub">
       Our team is built on discipline, results, and real support. Whether you’re a beginner or an athlete, we guide you with proper form, smart programming, and serious motivation.
     </p>
 
-    <!-- NEW: Trust badges -->
     <div class="team-badges">
       <div class="badge">✅ Certified Coaching</div>
       <div class="badge">🏋️ Strength & Conditioning</div>
@@ -48,21 +45,72 @@
     </div>
   </section>
 
-  
+  <!-- NEW: SEARCH / FILTER -->
+  <section class="team-tools-container reveal">
+    <div class="team-tools">
+      <div class="team-search">
+        <label for="teamSearch" class="team-label">Search</label>
+        <input id="teamSearch" class="team-input" type="text" placeholder="Search name, role, specialty..." />
+      </div>
+
+      <div class="team-filter">
+        <label for="teamFilter" class="team-label">Filter</label>
+        <select id="teamFilter" class="team-select">
+          <option value="all" selected>All Team</option>
+          <option value="owner">Owner</option>
+          <option value="staff">Staff</option>
+          <option value="coach">Coach</option>
+          <option value="barber">Barber</option>
+        </select>
+      </div>
+
+      <div class="team-actions">
+        <a class="team-tools-btn" href="../contact/contact.html#booking">Book Now</a>
+        <a class="team-tools-btn ghost" href="../contact/contact.html#branchSelect">Select Branch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW: WHAT OUR TEAM DOES (Luxury Professional Section) -->
+  <section class="team-services-container reveal">
+    <h2 class="team-services-title">What We Help You With</h2>
+
+    <div class="team-services-grid">
+      <div class="service-card">
+        <h3>💪 Strength & Muscle</h3>
+        <p>Progressive training plans designed for real strength and size.</p>
+      </div>
+
+      <div class="service-card">
+        <h3>🔥 Fat Loss & Conditioning</h3>
+        <p>High-efficiency training + support to keep your routine locked in.</p>
+      </div>
+
+      <div class="service-card">
+        <h3>🧠 Beginner Guidance</h3>
+        <p>Form checks, machine guidance, and a plan that keeps you safe.</p>
+      </div>
+
+      <div class="service-card">
+        <h3>💈 Grooming (Barber Lounge)</h3>
+        <p>Train hard, look sharper. Cuts, fades, lineups inside selected branches.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- OWNER / HEAD COACH -->
   <section class="team-section">
     <h2 class="team-section-title reveal">Owner</h2>
 
-    <div class="big-boss-card reveal">
+    <div class="big-boss-card reveal team-card" data-type="owner" data-name="Rafael Demagiba Alpha Lab Owner Leadership Community Gym Operations">
       <div class="boss-img-wrap">
-        <img class="img-meet-boss" src="../../Images/kurt-png.png" alt="Owner Photo" />
+        <img class="img-meet-boss open-lightbox" src="../../Images/kurt-png.png" alt="Owner Photo" />
       </div>
 
       <div class="boss-content">
         <h3 class="img-title">Alpha Lab Owner</h3>
         <p class="img-name">Rafael Demagiba</p>
 
-        <!-- NEW -->
         <p class="boss-bio">
           Built Alpha Grind Lab with one goal: create a training space where anyone can level up.
           Focused on discipline, results, and a culture that pushes you forward.
@@ -75,7 +123,8 @@
         </div>
 
         <div class="boss-cta">
-          <a class="boss-btn" href="../contact/contact.html">Message the Team</a>
+          <a class="boss-btn" href="../contact/contact.html#contactForm">Message the Team</a>
+          <a class="boss-btn ghost" href="../contact/contact.html#booking">Book Session</a>
         </div>
       </div>
     </div>
@@ -86,9 +135,10 @@
     <h2 class="team-section-title reveal">Staff</h2>
 
     <div class="staff-card-grid">
-      <div class="staff-card reveal">
+
+      <div class="staff-card reveal team-card" data-type="staff" data-name="Trisha Ann Malilin Manager Support Operations">
         <div class="avatar-wrap">
-          <img class="staff-img" src="../../Images/women-new-1-removebg-preview.png" alt="Manager" />
+          <img class="staff-img open-lightbox" src="../../Images/women-new-1-removebg-preview.png" alt="Manager" />
         </div>
         <h3 class="staff-title">Manager</h3>
         <p class="staff-name">Trisha Ann Malilin</p>
@@ -99,11 +149,16 @@
           <span class="tag">Support</span>
           <span class="tag">Operations</span>
         </div>
+
+        <div class="card-actions">
+          <a class="card-btn" href="../contact/contact.html#contactForm">Message</a>
+          <a class="card-btn ghost" href="../contact/contact.html#branchSelect">Branch</a>
+        </div>
       </div>
 
-      <div class="staff-card reveal">
+      <div class="staff-card reveal team-card" data-type="staff" data-name="Marta Magdangal Assistant Manager Scheduling Facility">
         <div class="avatar-wrap">
-          <img class="staff-img" src="../../Images/women4-removebg-preview.png" alt="Assistant Manager" />
+          <img class="staff-img open-lightbox" src="../../Images/women4-removebg-preview.png" alt="Assistant Manager" />
         </div>
         <h3 class="staff-title">Assistant Manager</h3>
         <p class="staff-name">Marta Magdangal</p>
@@ -114,11 +169,16 @@
           <span class="tag">Scheduling</span>
           <span class="tag">Facility</span>
         </div>
+
+        <div class="card-actions">
+          <a class="card-btn" href="../contact/contact.html#contactForm">Message</a>
+          <a class="card-btn ghost" href="../contact/contact.html#branchSelect">Branch</a>
+        </div>
       </div>
 
-      <div class="staff-card reveal">
+      <div class="staff-card reveal team-card" data-type="coach" data-name="Coach JB Navarro Coach Strength Conditioning Form">
         <div class="avatar-wrap">
-          <img class="staff-img" src="../../Images/men-new-2.png" alt="Coach" />
+          <img class="staff-img open-lightbox" src="../../Images/men-new-2.png" alt="Coach" />
         </div>
         <h3 class="staff-title">Coach</h3>
         <p class="staff-name">Coach JB Navarro</p>
@@ -130,11 +190,17 @@
           <span class="tag">Conditioning</span>
           <span class="tag">Form</span>
         </div>
+
+        <div class="card-actions">
+          <a class="card-btn" href="../contact/contact.html#booking">Book</a>
+          <a class="card-btn ghost" href="../contact/contact.html#contactForm">Ask Program</a>
+        </div>
       </div>
+
     </div>
   </section>
 
-  <!-- BARBERS (if you have this service) -->
+  <!-- BARBERS -->
   <section class="team-section">
     <h2 class="team-section-title reveal">Barbers</h2>
     <p class="team-section-sub reveal">
@@ -142,9 +208,10 @@
     </p>
 
     <div class="barbers-card-grid">
-      <div class="barbers-card reveal">
+
+      <div class="barbers-card reveal team-card" data-type="barber" data-name="Delgado Barber Fade Lineup">
         <div class="avatar-wrap">
-          <img class="barbers-img" src="../../Images/men-new-1-removebg-preview.png" alt="Barber" />
+          <img class="barbers-img open-lightbox" src="../../Images/men-new-1-removebg-preview.png" alt="Barber" />
         </div>
         <h3 class="barbers-title">Barber</h3>
         <p class="barbers-name">Delgado</p>
@@ -153,11 +220,16 @@
           <span class="tag">Fade</span>
           <span class="tag">Lineup</span>
         </div>
+
+        <div class="card-actions">
+          <a class="card-btn" href="../contact/contact.html#booking">Book</a>
+          <a class="card-btn ghost" href="../contact/contact.html#branchSelect">Branch</a>
+        </div>
       </div>
 
-      <div class="barbers-card reveal">
+      <div class="barbers-card reveal team-card" data-type="barber" data-name="Marcus Steele Barber Classic Modern">
         <div class="avatar-wrap">
-          <img class="barbers-img" src="../../Images/men-new-2-removebg-preview.png" alt="Barber" />
+          <img class="barbers-img open-lightbox" src="../../Images/men-new-2-removebg-preview.png" alt="Barber" />
         </div>
         <h3 class="barbers-title">Barber</h3>
         <p class="barbers-name">Marcus Steele</p>
@@ -166,11 +238,16 @@
           <span class="tag">Classic</span>
           <span class="tag">Modern</span>
         </div>
+
+        <div class="card-actions">
+          <a class="card-btn" href="../contact/contact.html#booking">Book</a>
+          <a class="card-btn ghost" href="../contact/contact.html#branchSelect">Branch</a>
+        </div>
       </div>
 
-      <div class="barbers-card reveal">
+      <div class="barbers-card reveal team-card" data-type="barber" data-name="Ray Santos Barber Detail Edges">
         <div class="avatar-wrap">
-          <img class="barbers-img" src="../../Images/men1-removebg-preview (1).png" alt="Barber" />
+          <img class="barbers-img open-lightbox" src="../../Images/men1-removebg-preview (1).png" alt="Barber" />
         </div>
         <h3 class="barbers-title">Barber</h3>
         <p class="barbers-name">Ray Santos</p>
@@ -179,22 +256,62 @@
           <span class="tag">Detail</span>
           <span class="tag">Edges</span>
         </div>
+
+        <div class="card-actions">
+          <a class="card-btn" href="../contact/contact.html#booking">Book</a>
+          <a class="card-btn ghost" href="../contact/contact.html#branchSelect">Branch</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NEW: WEEKLY SCHEDULE TEASER -->
+  <section class="team-schedule-container reveal">
+    <h2 class="team-schedule-title">Weekly Availability (Sample)</h2>
+    <p class="team-schedule-sub">Schedules may vary by branch. Message us to confirm.</p>
+
+    <div class="schedule-grid">
+      <div class="schedule-item">
+        <span class="day">Mon – Fri</span>
+        <span class="time">Coaching: 10AM – 8PM</span>
+      </div>
+      <div class="schedule-item">
+        <span class="day">Saturday</span>
+        <span class="time">Coaching: 9AM – 6PM</span>
+      </div>
+      <div class="schedule-item">
+        <span class="day">Sunday</span>
+        <span class="time">Barber: 12PM – 7PM</span>
       </div>
     </div>
   </section>
 
-  <!-- NEW CTA -->
+  <!-- CTA -->
   <section class="team-cta-container reveal">
     <h2 class="team-cta-title">Want a Coach or Custom Plan?</h2>
     <p class="team-cta-paragraph">
       Message us and we’ll match you with the right program and schedule.
     </p>
-    <a class="team-cta-btn" href="../contact/contact.html">Contact Us</a>
+    <a class="team-cta-btn" href="../contact/contact.html#booking">Book Now</a>
   </section>
 
 </main>
 
+<!-- MOBILE STICKY CTA -->
+<div class="team-sticky-cta">
+  <a href="../contact/contact.html#booking">Book Now</a>
+  <a class="ghost" href="../contact/contact.html#contactForm">Message</a>
+</div>
+
+<!-- LIGHTBOX (same system as your gallery) -->
+<div id="lightbox" style="display:none;">
+  <span id="lightboxClose">&times;</span>
+  <img id="lightboxImg" src="" alt="Zoomed Image" />
+</div>
+
 <script src="/common.js"></script>
 <script src="trainers.js"></script>
+
 </body>
 </html>

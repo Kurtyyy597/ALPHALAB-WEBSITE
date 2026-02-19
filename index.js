@@ -312,3 +312,141 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// =============================
+// Branches: Lightbox + Map Modal
+// =============================
+document.addEventListener("DOMContentLoaded", () => {
+  // Existing lightbox elements (already in your HTML)
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxClose = document.getElementById("lightboxClose");
+
+  // Map modal elements (we added these)
+  const mapModal = document.getElementById("mapModal");
+  const mapBackdrop = document.getElementById("mapBackdrop");
+  const mapClose = document.getElementById("mapClose");
+  const mapTitle = document.getElementById("mapTitle");
+  const mapFrame = document.getElementById("mapFrame");
+
+  // Helpers
+  const openLightbox = (src, alt = "Branch Image") => {
+    if (!lightbox || !lightboxImg) return;
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    lightbox.style.display = "flex";
+  };
+
+  const closeLightbox = () => {
+    if (!lightbox || !lightboxImg) return;
+    lightbox.style.display = "none";
+    lightboxImg.src = "";
+  };
+
+  const openMap = (title, mapUrl) => {
+    if (!mapModal || !mapFrame) return;
+    mapTitle.textContent = title || "Branch Location";
+    mapFrame.src = mapUrl || "";
+    mapModal.classList.add("show");
+    mapModal.setAttribute("aria-hidden", "false");
+  };
+
+  const closeMap = () => {
+    if (!mapModal || !mapFrame) return;
+    mapModal.classList.remove("show");
+    mapModal.setAttribute("aria-hidden", "true");
+    mapFrame.src = ""; // stops map from continuing to load/audio
+  };
+
+  // Attach events to all branch cards
+  document.querySelectorAll(".branch-card").forEach((card) => {
+    const imgSrc = card.getAttribute("data-img");
+    const branchName = card.getAttribute("data-branch");
+    const mapUrl = card.getAttribute("data-map");
+
+    const viewBtn = card.querySelector(".branch-view");
+    const mapBtn = card.querySelector(".branch-map");
+    const imgEl = card.querySelector(".branch-media img");
+
+    // View Branch -> open image in lightbox
+    if (viewBtn) {
+      viewBtn.addEventListener("click", () => openLightbox(imgSrc, branchName));
+    }
+
+    // Clicking image also opens lightbox
+    if (imgEl) {
+      imgEl.style.cursor = "zoom-in";
+      imgEl.addEventListener("click", () => openLightbox(imgSrc, branchName));
+    }
+
+    // View Map -> open map modal
+    if (mapBtn) {
+      mapBtn.addEventListener("click", () => openMap(branchName, mapUrl));
+    }
+  });
+
+  // Lightbox close
+  if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
+  if (lightbox) {
+    lightbox.addEventListener("click", (e) => {
+      // close when clicking outside the image
+      if (e.target === lightbox) closeLightbox();
+    });
+  }
+
+  // Map close
+  if (mapClose) mapClose.addEventListener("click", closeMap);
+  if (mapBackdrop) mapBackdrop.addEventListener("click", closeMap);
+
+  // ESC closes both
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeLightbox();
+      closeMap();
+    }
+  });
+});
+
+// =============================
+// Barber Image → Lightbox
+// =============================
+document.addEventListener("DOMContentLoaded", () => {
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxClose = document.getElementById("lightboxClose");
+
+  const barberImage = document.querySelector(".barber-lightbox");
+
+  if (barberImage) {
+    barberImage.style.cursor = "zoom-in";
+
+    barberImage.addEventListener("click", () => {
+      lightboxImg.src = barberImage.src;
+      lightboxImg.alt = barberImage.alt;
+      lightbox.style.display = "flex";
+    });
+  }
+
+  // Close when clicking X
+  if (lightboxClose) {
+    lightboxClose.addEventListener("click", () => {
+      lightbox.style.display = "none";
+    });
+  }
+
+  // Close when clicking outside image
+  if (lightbox) {
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) {
+        lightbox.style.display = "none";
+      }
+    });
+  }
+
+  // ESC key closes it
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      lightbox.style.display = "none";
+    }
+  });
+});
+
