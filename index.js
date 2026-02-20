@@ -28,49 +28,37 @@ function updateGymStatus() {
 
   const now = new Date();
   const day = now.getDay(); // 0 = Sunday
-  const hour = now.getHours();
-  const minutes = now.getMinutes();
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
-  let openTime, closeTime;
+  let openMinutes, closeMinutes;
 
-  // Sunday
   if (day === 0) {
-    openTime = { h: 9, m: 0 }; // 9:00 AM
-    closeTime = { h: 21, m: 0 }; // 9:00 PM
+    // Sunday
+    openMinutes = 9 * 60;
+    closeMinutes = 21 * 60;
   } else {
     // Monday - Saturday
-    openTime = { h: 8, m: 0 }; // 8:00 AM
-    closeTime = { h: 23, m: 0 }; // 11:00 PM
+    openMinutes = 8 * 60;
+    closeMinutes = 23 * 60;
   }
-
-  const currentMinutes = hour * 60 + minutes;
-  const openMinutes = openTime.h * 60 + openTime.m;
-  const closeMinutes = closeTime.h * 60 + closeTime.m;
 
   statusEl.classList.remove("open", "closed");
 
-  if (currentMinutes >= openMinutes && currentMinutes <= closeMinutes) {
+  if (currentMinutes >= openMinutes && currentMinutes < closeMinutes) {
     const minutesLeft = closeMinutes - currentMinutes;
     const hrs = Math.floor(minutesLeft / 60);
     const mins = minutesLeft % 60;
 
-    statusEl.textContent = `OPEN 🟢 — Closes in ${hrs > 0 ? hrs + "h " : ""}${mins}m`;
+    statusEl.innerHTML = `
+      <span class="status-dot open-dot"></span>
+      OPEN — Closes in ${hrs > 0 ? hrs + "h " : ""}${mins}m
+    `;
     statusEl.classList.add("open");
   } else {
-    let minutesUntilOpen;
-
-    if (currentMinutes < openMinutes) {
-      minutesUntilOpen = openMinutes - currentMinutes;
-    } else {
-      const tomorrow = (day + 1) % 7;
-      const nextOpenMinutes = tomorrow === 0 ? 9 * 60 : 8 * 60;
-      minutesUntilOpen = 24 * 60 - currentMinutes + nextOpenMinutes;
-    }
-
-    const hrs = Math.floor(minutesUntilOpen / 60);
-    const mins = minutesUntilOpen % 60;
-
-    statusEl.textContent = `CLOSED 🔴 — Opens in ${hrs > 0 ? hrs + "h " : ""}${mins}m`;
+    statusEl.innerHTML = `
+      <span class="status-dot closed-dot"></span>
+      CLOSED
+    `;
     statusEl.classList.add("closed");
   }
 }

@@ -830,3 +830,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+const params = new URLSearchParams(window.location.search);
+const type = params.get("type");
+
+const inquirySelect = document.getElementById("inquiryType");
+if (inquirySelect && type) {
+  const map = {
+    trial: "Free Trial Session",
+    tour: "Gym Tour",
+    membership: "Membership Inquiry",
+    coaching: "Personal Coaching",
+    barber: "Barber Appointment",
+  };
+
+  const value = map[type];
+  if (value) inquirySelect.value = value;
+}
+
+// Optional: focus the form for faster action
+const formSection = document.getElementById("contactForm");
+if (formSection) {
+  setTimeout(() => {
+    inquirySelect?.focus();
+  }, 250);
+}

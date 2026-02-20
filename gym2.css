@@ -4643,3 +4643,514 @@ main {
   background: rgba(255,255,255,0.12);
 }
 
+
+
+/* =========================
+   FREE PASS BANNER — PRO DARK + PREMIUM BUTTON
+   (Includes Mobile Responsiveness)
+   ========================= */
+
+.free-pass-banner{
+  max-width: 920px;
+  margin: 18px auto 26px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(135deg, rgba(18,18,22,0.92), rgba(8,8,12,0.92));
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow:
+    0 16px 40px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+}
+
+.free-pass-banner::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(650px 220px at 18% 0%,
+      rgba(255,255,255,0.12),
+      transparent 60%),
+    radial-gradient(520px 200px at 85% 25%,
+      rgba(255,255,255,0.08),
+      transparent 55%);
+  pointer-events: none;
+}
+
+.free-pass-banner::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.05));
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.free-pass-banner p{
+  margin: 0;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.35;
+  letter-spacing: 0.2px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.free-pass-banner .pass-icon{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+  font-size: 18px;
+}
+
+.free-pass-banner strong{
+  color: rgba(255,255,255,0.96);
+  font-weight: 800;
+}
+
+/* =========================
+   PREMIUM DARK CTA BUTTON
+   ========================= */
+
+.free-pass-banner a{
+  position: relative;
+  isolation: isolate; /* keeps glow layers clean */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 16px;
+  border-radius: 12px;
+
+  /* premium dark gradient */
+  background: linear-gradient(180deg, #141418, #0a0a0d);
+  color: rgba(255,255,255,0.95);
+  text-decoration: none;
+  font-weight: 900;
+  letter-spacing: 0.25px;
+
+  border: 1px solid rgba(255,255,255,0.14);
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.10),
+    inset 0 -1px 0 rgba(0,0,0,0.55);
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease,
+    filter 0.22s ease;
+}
+
+/* shiny sweep */
+.free-pass-banner a::before{
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.08) 30%,
+    rgba(255,255,255,0.20) 50%,
+    rgba(255,255,255,0.08) 70%,
+    transparent 100%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+  z-index: -1;
+  opacity: 0.65;
+}
+
+/* outer glow ring */
+.free-pass-banner a::after{
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.22), transparent 55%);
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  z-index: -2;
+}
+
+.free-pass-banner a:hover{
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(255,255,255,0.26);
+  filter: brightness(1.05);
+
+  box-shadow:
+    0 20px 42px rgba(0,0,0,0.68),
+    0 0 0 1px rgba(255,255,255,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.14),
+    inset 0 -1px 0 rgba(0,0,0,0.65);
+}
+
+.free-pass-banner a:hover::before{
+  transform: translateX(0%);
+}
+
+.free-pass-banner a:hover::after{
+  opacity: 1;
+}
+
+.free-pass-banner a:active{
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* keyboard accessibility */
+.free-pass-banner a:focus-visible{
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,0.16),
+    0 0 0 6px rgba(255,255,255,0.08),
+    0 18px 38px rgba(0,0,0,0.65);
+}
+
+/* =========================
+   Mobile Responsiveness
+   ========================= */
+@media (max-width: 768px){
+  .free-pass-banner{
+    max-width: 92%;
+    padding: 12px 12px;
+    border-radius: 14px;
+  }
+
+  .free-pass-banner p{
+    gap: 10px;
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  /* button becomes full-width on mobile */
+  .free-pass-banner a{
+    width: 100%;
+    margin-top: 6px;
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 420px){
+  .free-pass-banner p{
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .free-pass-banner .pass-icon{
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* ==========================================================
+   LUXURY "HOW IT WORKS" — ALL-IN (Premium + Timeline + Glow)
+   Includes:
+   - Premium dark theme
+   - Connected to banner (same glass / luxury vibe)
+   - Vertical luxury timeline (mobile)
+   - Horizontal cards (desktop)
+   - Subtle glow on enter (with your .reveal class)
+   - Animated step-number transitions on hover + enter
+   - Always responsive
+   ========================================================== */
+
+/* Optional: set once globally if you haven't */
+html { scroll-behavior: smooth; }
+
+/* ---------- SECTION WRAP ---------- */
+.how-it-works{
+  /* matches luxury dark vibe */
+  padding: 84px 20px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  background: radial-gradient(1100px 520px at 20% 0%, rgba(255,255,255,0.06), transparent 60%),
+              linear-gradient(180deg, #0b0b0f, #07070a 70%, #060609);
+}
+
+/* subtle background texture glow */
+.how-it-works::before{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  background:
+    radial-gradient(700px 220px at 15% 10%, rgba(255,255,255,0.08), transparent 55%),
+    radial-gradient(600px 240px at 85% 30%, rgba(255,255,255,0.06), transparent 60%),
+    radial-gradient(900px 380px at 50% 90%, rgba(255,255,255,0.04), transparent 60%);
+  pointer-events:none;
+}
+
+/* title */
+.how-title{
+  position: relative;
+  z-index: 1;
+  font-size: 1.9rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.96);
+  margin: 0 0 46px;
+  letter-spacing: 0.6px;
+}
+
+/* premium underline */
+.how-title::after{
+  content:"";
+  display:block;
+  width: 86px;
+  height: 2px;
+  margin: 14px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+  opacity: 0.9;
+}
+
+/* ---------- GRID (Desktop = Horizontal cards) ---------- */
+.how-grid{
+  position: relative;
+  z-index: 1;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+/* ---------- CARD ---------- */
+.how-card{
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+  padding: 34px 26px;
+  border-radius: 20px;
+
+  /* premium glass card, consistent with banner */
+  background: linear-gradient(145deg, rgba(18,18,22,0.92), rgba(8,8,12,0.92));
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow:
+    0 18px 46px rgba(0,0,0,0.62),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+
+  transform: translateY(10px);
+  opacity: 0.92;
+
+  transition:
+    transform 0.35s cubic-bezier(.2,.8,.2,1),
+    box-shadow 0.35s cubic-bezier(.2,.8,.2,1),
+    border-color 0.35s ease,
+    filter 0.35s ease;
+}
+
+/* soft highlight & sheen */
+.how-card::before{
+  content:"";
+  position:absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background:
+    radial-gradient(520px 200px at 25% 0%,
+      rgba(255,255,255,0.12),
+      transparent 60%),
+    radial-gradient(420px 220px at 90% 35%,
+      rgba(255,255,255,0.06),
+      transparent 60%);
+  pointer-events:none;
+  opacity: 0.9;
+}
+
+/* luxury edge glow (appears more on hover / enter) */
+.how-card::after{
+  content:"";
+  position:absolute;
+  inset:-10px;
+  border-radius: inherit;
+  background: radial-gradient(circle at 25% 20%, rgba(255,255,255,0.16), transparent 55%);
+  filter: blur(14px);
+  opacity: 0;
+  pointer-events:none;
+  transition: opacity 0.35s ease;
+}
+
+/* ---------- STEP NUMBER (Animated) ---------- */
+.how-card .step-number{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 2.2rem;
+  font-weight: 950;
+  letter-spacing: 2px;
+
+  color: rgba(255,255,255,0.14);
+  margin-bottom: 12px;
+
+  transform: translateY(2px);
+  transition: transform 0.35s cubic-bezier(.2,.8,.2,1),
+              color 0.35s ease,
+              letter-spacing 0.35s ease;
+}
+
+/* small badge line */
+.how-card .step-number::after{
+  content:"";
+  width: 36px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.50), transparent);
+  opacity: 0.6;
+}
+
+/* text */
+.how-card p{
+  margin: 0;
+  color: rgba(255,255,255,0.86);
+  font-size: 1rem;
+  line-height: 1.65;
+  letter-spacing: 0.2px;
+}
+
+/* ---------- HOVER (amazing but classy) ---------- */
+.how-card:hover{
+  transform: translateY(-10px);
+  border-color: rgba(255,255,255,0.20);
+  filter: brightness(1.04);
+
+  box-shadow:
+    0 30px 78px rgba(0,0,0,0.78),
+    0 0 0 1px rgba(255,255,255,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.how-card:hover::after{
+  opacity: 1;
+}
+
+.how-card:hover .step-number{
+  transform: translateY(-2px);
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.22);
+}
+
+/* ---------- ENTER GLOW using your existing .reveal system ---------- */
+/* Many reveal systems add .active or .show when visible. Support both. */
+.reveal.active.how-card,
+.reveal.show.how-card,
+.how-card.reveal.active,
+.how-card.reveal.show{
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.reveal.active.how-card::after,
+.reveal.show.how-card::after,
+.how-card.reveal.active::after,
+.how-card.reveal.show::after{
+  opacity: 0.55; /* subtle glow on enter */
+}
+
+/* If your reveal system doesn't add classes, you can also manually add
+   .show to .how-card in HTML/JS and it will animate in. */
+
+
+/* ==========================================================
+   MOBILE = VERTICAL LUXURY TIMELINE
+   ========================================================== */
+@media (max-width: 860px){
+  .how-it-works{
+    padding: 64px 16px;
+    text-align: left;
+  }
+
+  .how-title{
+    text-align: center;
+    font-size: 1.6rem;
+    margin-bottom: 34px;
+  }
+
+  .how-grid{
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    /* timeline rail */
+    position: relative;
+    padding-left: 18px;
+  }
+
+  .how-grid::before{
+    content:"";
+    position:absolute;
+    left: 8px;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(255,255,255,0.18),
+      rgba(255,255,255,0.10),
+      transparent
+    );
+  }
+
+  .how-card{
+    padding: 26px 18px 26px 20px;
+    border-radius: 18px;
+  }
+
+  /* timeline dot (premium) */
+  .how-card::marker{ content:""; } /* harmless */
+
+  .how-card .step-number{
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  /* dot */
+  .how-card .step-number::before{
+    content:"";
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.65);
+    box-shadow:
+      0 0 0 4px rgba(255,255,255,0.08),
+      0 8px 20px rgba(0,0,0,0.6);
+    position: absolute;
+    left: -15px;
+    top: 32px;
+  }
+
+  /* make sure absolute dot anchors properly */
+  .how-card{
+    position: relative;
+  }
+}
+
+@media (max-width: 420px){
+  .how-title{ font-size: 1.45rem; }
+  .how-card p{ font-size: 0.95rem; }
+}
+
+/* ==========================================================
+   OPTIONAL: visually connect this section to your Guest Pass banner
+   (Use if banner is directly above it)
+   ========================================================== */
+.free-pass-banner + .how-it-works{
+  margin-top: -10px;
+  padding-top: 74px;
+}
