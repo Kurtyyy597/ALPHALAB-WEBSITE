@@ -23,48 +23,111 @@ setWelcomeMessage();
 // ============================
 const statusEl = document.getElementById("gymStatus");
 
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
+
+function formatTime12(date) {
+  let h = date.getHours();
+  const m = date.getMinutes();
+  const ampm = h >= 12 ? "PM" : "AM";
+  h = h % 12 || 12;
+  return `${h}:${pad(m)} ${ampm}`;
+}
+
+function formatHM(hours24, minutes = 0) {
+  const d = new Date();
+  d.setHours(hours24, minutes, 0, 0);
+  return formatTime12(d);
+}
+
+function minutesToText(totalMinutes) {
+  const hrs = Math.floor(totalMinutes / 60);
+  const mins = totalMinutes % 60;
+  return `${hrs > 0 ? `${hrs}h ` : ""}${mins}m`;
+}
+
+function getHoursForDay(day) {
+  // 0 = Sunday
+  if (day === 0) return { openHour: 9, closeHour: 21 }; // 9AM–9PM
+  return { openHour: 8, closeHour: 23 }; // 8AM–11PM
+}
+
 function updateGymStatus() {
   if (!statusEl) return;
 
   const now = new Date();
-  const day = now.getDay(); // 0 = Sunday
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+  const day = now.getDay();
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
-  let openMinutes, closeMinutes;
+  const { openHour, closeHour } = getHoursForDay(day);
+  const openMinutes = openHour * 60;
+  const closeMinutes = closeHour * 60;
 
-  if (day === 0) {
-    // Sunday
-    openMinutes = 9 * 60;
-    closeMinutes = 21 * 60;
-  } else {
-    // Monday - Saturday
-    openMinutes = 8 * 60;
-    closeMinutes = 23 * 60;
-  }
+  const openText = formatHM(openHour);
+  const closeText = formatHM(closeHour);
+  const nowText = formatTime12(now);
 
   statusEl.classList.remove("open", "closed");
 
-  if (currentMinutes >= openMinutes && currentMinutes < closeMinutes) {
-    const minutesLeft = closeMinutes - currentMinutes;
-    const hrs = Math.floor(minutesLeft / 60);
-    const mins = minutesLeft % 60;
+  // OPEN: between open and close
+  if (nowMinutes >= openMinutes && nowMinutes < closeMinutes) {
+    const minsLeft = closeMinutes - nowMinutes;
 
     statusEl.innerHTML = `
       <span class="status-dot open-dot"></span>
-      OPEN — Closes in ${hrs > 0 ? hrs + "h " : ""}${mins}m
+      <strong>OPEN</strong> — Closes in ${minutesToText(minsLeft)}
+      <br><small>Now: ${nowText}</small>
+      <br><small>Hours today: ${openText} – ${closeText}</small>
     `;
     statusEl.classList.add("open");
-  } else {
+    return;
+  }
+
+  // CLOSED: figure out next opening time
+  let nextOpenDay = day;
+  let minsUntilOpen;
+
+  // Before opening today
+  if (nowMinutes < openMinutes) {
+    minsUntilOpen = openMinutes - nowMinutes;
+
     statusEl.innerHTML = `
+     <div class="gym-status-title">Status</div>
+
       <span class="status-dot closed-dot"></span>
-      CLOSED
+      <strong>CLOSED</strong> — Opens in ${minutesToText(minsUntilOpen)} (${openText})
+      <br><small>Now: ${nowText}</small>
+      <br><small>Hours today: ${openText} – ${closeText}</small>
     `;
     statusEl.classList.add("closed");
+    return;
   }
+
+  // After closing today → opens tomorrow (or next day schedule)
+  nextOpenDay = (day + 1) % 7;
+  const tomorrowHours = getHoursForDay(nextOpenDay);
+  const tomorrowOpenMinutes = tomorrowHours.openHour * 60;
+
+  minsUntilOpen = 24 * 60 - nowMinutes + tomorrowOpenMinutes;
+
+  const tomorrowOpenText = formatHM(tomorrowHours.openHour);
+  const tomorrowCloseText = formatHM(tomorrowHours.closeHour);
+
+  statusEl.innerHTML = `
+    <span class="status-dot closed-dot"></span>
+    <strong>CLOSED</strong> — Opens tomorrow at ${tomorrowOpenText} (in ${minutesToText(minsUntilOpen)})
+    <br><small>Now: ${nowText}</small>
+    <br><small>Tomorrow’s hours: ${tomorrowOpenText} – ${tomorrowCloseText}</small>
+  `;
+  statusEl.classList.add("closed");
 }
 
+// Run immediately
 updateGymStatus();
-setInterval(updateGymStatus, 60000);
+
+// Update live (every second). If you prefer lighter: use 60000 for every minute.
+setInterval(updateGymStatus, 1000);
 
 // ============================
 // SCROLL REVEAL ANIMATIONS
