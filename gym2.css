@@ -5311,3 +5311,216 @@ html { scroll-behavior: smooth; }
   margin-top: -10px;
   padding-top: 74px;
 }
+
+/* =========================================================
+   MODERN DARK THEME ADD-ONS (SCOPED)
+   - Sticky Mobile CTA Bar
+   - Free Pass Popup Modal
+   All styles are scoped to avoid conflicts with your 50k css
+========================================================= */
+
+/* ===== Mobile Sticky CTA Bar ===== */
+#mobileCtaBar {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 9999;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 18px;
+
+  background: rgba(14, 16, 20, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  transform: translateY(140%);
+  transition: transform 240ms ease;
+}
+
+#mobileCtaBar.is-visible {
+  transform: translateY(0);
+}
+
+#mobileCtaBar a {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 14px;
+  padding: 12px 10px;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.92);
+
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+#mobileCtaBar a:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+#mobileCtaBar a.primary {
+  border: 0;
+  color: #0b0b0c;
+  background: linear-gradient(90deg, rgba(255, 90, 0, 0.98), rgba(255, 0, 120, 0.98));
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+#mobileCtaBar a.primary:hover {
+  filter: brightness(1.03);
+}
+
+/* Hide on desktop */
+@media (min-width: 769px) {
+  #mobileCtaBar { display: none; }
+}
+
+/* Prevent CTA bar from covering content on mobile */
+@media (max-width: 768px) {
+  body { padding-bottom: 92px; }
+}
+
+
+/* ===== Free Pass Popup ===== */
+#freePassPopup {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+#freePassPopup .fp-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.64);
+}
+
+#freePassPopup .fp-card {
+  position: relative;
+  width: min(460px, 100%);
+  border-radius: 22px;
+  padding: 18px;
+  z-index: 1;
+
+  background: rgba(16, 18, 22, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.65);
+  color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  transform: translateY(8px) scale(0.98);
+  opacity: 0;
+  animation: fpIn 220ms ease forwards;
+}
+
+@keyframes fpIn {
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+#freePassPopup .fp-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.92);
+
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+#freePassPopup .fp-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+#freePassPopup .fp-title {
+  font-size: 22px;
+  font-weight: 950;
+  margin: 10px 0 6px;
+  line-height: 1.2;
+}
+
+#freePassPopup .fp-sub {
+  opacity: 0.88;
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+#freePassPopup .fp-bullets {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 16px;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#freePassPopup .fp-bullets div {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  opacity: 0.92;
+}
+
+#freePassPopup .fp-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#freePassPopup .fp-actions a,
+#freePassPopup .fp-actions button {
+  flex: 1;
+  border-radius: 16px;
+  padding: 12px 10px;
+  font-weight: 950;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+#freePassPopup .fp-actions a.primary {
+  border: 0;
+  color: #0b0b0c;
+  background: linear-gradient(90deg, rgba(255, 90, 0, 0.98), rgba(255, 0, 120, 0.98));
+}
+
+#freePassPopup .fp-note {
+  margin-top: 10px;
+  font-size: 12px;
+  opacity: 0.70;
+}
+
+@media (max-width: 420px) {
+  #freePassPopup .fp-actions { flex-direction: column; }
+  #freePassPopup .fp-title { font-size: 20px; }
+}

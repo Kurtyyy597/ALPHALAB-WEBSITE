@@ -855,3 +855,21 @@ if (formSection) {
     inquirySelect?.focus();
   }, 250);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const type = (params.get("type") || "").toLowerCase();
+
+  const inquiry = document.getElementById("inquiryType");
+  if (!inquiry) return;
+
+  const map = {
+    trial: "Free Trial Session",
+    tour: "Gym Tour",
+    barber: "Barber Appointment",
+    membership: "Membership Inquiry",
+    coach: "Personal Coaching",
+  };
+
+  if (map[type]) inquiry.value = map[type];
+});

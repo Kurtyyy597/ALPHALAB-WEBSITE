@@ -127,7 +127,7 @@ function updateGymStatus() {
 updateGymStatus();
 
 // Update live (every second). If you prefer lighter: use 60000 for every minute.
-setInterval(updateGymStatus, 1000);
+setInterval(updateGymStatus, 60000);
 
 // ============================
 // SCROLL REVEAL ANIMATIONS
@@ -2166,4 +2166,202 @@ document.addEventListener("DOMContentLoaded", () => {
       "Tell me your time today (20/30/45/60 mins) and your goal."
     );
   }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  if (!isMobile) return;
+  if (document.getElementById("mobileCtaBar")) return;
+
+  const bar = document.createElement("div");
+  bar.id = "mobileCtaBar";
+
+  const contactTrialLink = "./contact/contact.html?type=trial#contactForm";
+  const messengerLink = "https://www.facebook.com/alphagrindlabmaypajo/";
+  const phoneLink = "tel:09694828850";
+
+  bar.innerHTML = `
+    <a class="cta-bar-btn primary" href="${contactTrialLink}">🎟️ Free Trial</a>
+    <a class="cta-bar-btn" href="${messengerLink}" target="_blank" rel="noopener">💬 Message</a>
+    <a class="cta-bar-btn" href="${phoneLink}">📞 Call</a>
+  `;
+
+  document.body.appendChild(bar);
+});
+
+// =========================================================
+// MODERN HOOKS ADD-ON (Pure JS)
+// 1) Mobile sticky CTA bar (Free Trial / Messenger / Call)
+// 2) One-time Free Pass popup (scroll/time trigger)
+// =========================================================
+// =======================================================
+// SMART HOMEPAGE POPUP (ALL DEVICES)
+// Trigger: 40% scroll OR 12s delay OR exit intent (desktop)
+// Homepage only
+// =======================================================
+// =======================================================
+// HOMEPAGE POPUP (ALL DEVICES) + HONEST URGENCY TIMER
+// Trigger: 40% scroll OR 12s delay OR exit intent (desktop only)
+// Homepage only • once per page load
+// =======================================================
+// =======================================================
+// HOMEPAGE POPUP (ALL DEVICES) + HONEST URGENCY TIMER (PERSISTENT)
+// Trigger: 40% scroll OR 12s delay OR exit intent (desktop only)
+// Homepage only • once per page load
+// Timer persists across reloads for the same user (localStorage)
+// =======================================================
+document.addEventListener("DOMContentLoaded", () => {
+  // ✅ Homepage only
+  const path = (window.location.pathname || "").toLowerCase();
+  const isHome =
+    path === "/" || path.endsWith("/index.html") || path.includes("index");
+
+  if (!isHome) return;
+
+  let popupShown = false;
+
+  function showPopup() {
+    if (popupShown) return;
+    popupShown = true;
+
+    if (document.getElementById("freePassPopup")) return;
+
+    const contactTrialLink = "./contact/contact.html?type=trial#contactForm";
+
+    const wrap = document.createElement("div");
+    wrap.id = "freePassPopup";
+    wrap.innerHTML = `
+      <div class="fp-backdrop"></div>
+      <div class="fp-card" role="dialog" aria-modal="true" aria-label="Free pass offer">
+        <button class="fp-close" type="button" aria-label="Close">✕</button>
+
+        <div class="fp-kicker">🎟️ Free 1-Day Pass</div>
+        <div class="fp-title">Book your free session</div>
+
+        <div class="fp-urgency">
+          <span class="fp-pill">⏳ Priority booking window ends in <b id="fpTimer">10:00</b></span>
+        </div>
+
+        <div class="fp-sub">
+          🎟️ Free pass is limited daily. <b>Subject to confirmation.</b><br>
+          Submit now and we’ll confirm availability within <b>24 hours</b>.
+        </div>
+
+        <div class="fp-bullets">
+          <div>✅ <span><b>No login</b> • takes 30 seconds</span></div>
+          <div>📍 <span><b>Choose a branch</b> • we’ll confirm your slot</span></div>
+          <div>⚡ <span><b>Fast reply</b> • within 24 hours</span></div>
+        </div>
+
+        <div class="fp-actions">
+          <a class="primary" id="fpClaim" href="${contactTrialLink}">Claim Free Pass</a>
+          <button type="button" id="fpLater">Maybe later</button>
+        </div>
+
+        <div class="fp-note">Note: submitting a request doesn’t guarantee a slot — we confirm via message.</div>
+      </div>
+    `;
+
+    document.body.appendChild(wrap);
+
+    // ===== Persistent Countdown Timer (across reloads) =====
+    const timerEl = wrap.querySelector("#fpTimer");
+    const claimBtn = wrap.querySelector("#fpClaim");
+
+    const TIMER_KEY = "alpha_priority_window_expiry_v1";
+    const DURATION_MS = 10 * 60 * 1000; // 10 minutes
+
+    let expiry = Number(localStorage.getItem(TIMER_KEY));
+    if (!expiry || Number.isNaN(expiry) || expiry < Date.now()) {
+      expiry = Date.now() + DURATION_MS;
+      localStorage.setItem(TIMER_KEY, String(expiry));
+    }
+
+    function fmt(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    }
+
+    function render() {
+      const remainingMs = expiry - Date.now();
+      const remainingSec = Math.max(0, Math.floor(remainingMs / 1000));
+
+      if (timerEl) timerEl.textContent = fmt(remainingSec);
+
+      if (remainingSec <= 0) {
+        // window ended: clear expiry so next popup can start fresh
+        localStorage.removeItem(TIMER_KEY);
+
+        // Soft expiry: CTA becomes less prominent (still clickable)
+        if (claimBtn) {
+          claimBtn.style.opacity = "0.65";
+          claimBtn.style.filter = "grayscale(0.25)";
+          // Hard expiry (optional):
+          // claimBtn.style.pointerEvents = "none";
+          // claimBtn.textContent = "Window Ended";
+        }
+        return false; // stop interval
+      }
+      return true;
+    }
+
+    // initial paint
+    render();
+
+    const timerId = setInterval(() => {
+      const keepGoing = render();
+      if (!keepGoing) clearInterval(timerId);
+    }, 1000);
+
+    // Optional: if user clicks claim, reset timer window
+    claimBtn?.addEventListener("click", () => {
+      localStorage.removeItem(TIMER_KEY);
+    });
+
+    const close = () => {
+      clearInterval(timerId);
+      wrap.remove();
+    };
+
+    wrap.querySelector(".fp-backdrop")?.addEventListener("click", close);
+    wrap.querySelector(".fp-close")?.addEventListener("click", close);
+    wrap.querySelector("#fpLater")?.addEventListener("click", close);
+
+    document.addEventListener(
+      "keydown",
+      (e) => {
+        if (e.key === "Escape") close();
+      },
+      { once: true },
+    );
+  }
+
+  // 1️⃣ Scroll Trigger (40%)
+  function onScroll() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+
+    if (progress >= 0.4) {
+      showPopup();
+      window.removeEventListener("scroll", onScroll);
+    }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // 2️⃣ Time Trigger (12 seconds)
+  setTimeout(() => showPopup(), 12000);
+
+  // 3️⃣ Exit Intent (desktop only)
+  document.addEventListener("mouseout", (e) => {
+    if (popupShown) return;
+
+    // mouse-based exit intent works reliably only on desktop
+    if (window.innerWidth > 768) {
+      if (!e.toElement && !e.relatedTarget && e.clientY < 10) {
+        showPopup();
+      }
+    }
+  });
 });
