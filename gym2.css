@@ -5524,3 +5524,202 @@ html { scroll-behavior: smooth; }
   #freePassPopup .fp-actions { flex-direction: column; }
   #freePassPopup .fp-title { font-size: 20px; }
 }
+
+/* ==========================================
+   ALPHA ANNOUNCEMENT (AGGRESSIVE + LUXURY + URGENT + GLOW)
+========================================== */
+
+.alpha-announce {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  overflow: hidden;
+
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.alpha-announce__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  position: relative;
+}
+
+/* Luxury minimal thin highlight line */
+.alpha-announce__inner::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.12),
+    transparent
+  );
+}
+
+/* Urgent pill */
+.alpha-announce__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 7px 12px;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  white-space: nowrap;
+
+  box-shadow:
+    0 0 0 1px rgba(225, 6, 0, 0.25) inset,
+    0 8px 25px rgba(0, 0, 0, 0.45);
+}
+
+/* Blinking “live” dot (urgent) */
+.alpha-announce__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ff3b30;
+  box-shadow: 0 0 12px rgba(255, 59, 48, 0.55);
+  animation: alphaPulse 1.15s infinite;
+}
+
+@keyframes alphaPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.6); opacity: 0.55; }
+}
+
+/* Copy */
+.alpha-announce__copy {
+  flex: 1;
+  min-width: 180px;
+}
+
+.alpha-announce__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 950;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Luxury minimal subtext */
+.alpha-announce__sub {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.70);
+}
+
+/* Animated glow on the whole bar */
+.alpha-announce--glow {
+  box-shadow:
+    0 10px 45px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+.alpha-announce--glow::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+
+  background: radial-gradient(
+    700px 120px at 30% 0%,
+    rgba(225, 6, 0, 0.25),
+    transparent 60%
+  );
+
+  animation: glowDrift 3.2s ease-in-out infinite;
+  opacity: 0.9;
+}
+
+@keyframes glowDrift {
+  0%   { transform: translateX(-6%); opacity: 0.7; }
+  50%  { transform: translateX(6%);  opacity: 1; }
+  100% { transform: translateX(-6%); opacity: 0.7; }
+}
+
+/* Shine sweep (premium effect) */
+.alpha-announce__shine {
+  position: absolute;
+  top: -40%;
+  left: -30%;
+  width: 40%;
+  height: 180%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.10),
+    transparent
+  );
+  transform: rotate(18deg);
+  animation: shineSweep 4.5s ease-in-out infinite;
+  opacity: 0.55;
+}
+
+@keyframes shineSweep {
+  0%   { left: -40%; opacity: 0; }
+  15%  { opacity: 0.55; }
+  55%  { left: 110%; opacity: 0.35; }
+  100% { left: 110%; opacity: 0; }
+}
+
+/* =========================
+   MOBILE RESPONSIVENESS
+========================= */
+@media (max-width: 768px) {
+  .alpha-announce__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 14px;
+  }
+
+  .alpha-announce__title {
+    font-size: 14px;
+  }
+
+  .alpha-announce__sub {
+    font-size: 12.8px;
+  }
+
+  /* keep glow but reduce movement on small screens */
+  .alpha-announce__shine {
+    opacity: 0.35;
+  }
+}
+
+@media (max-width: 400px) {
+  .alpha-announce__pill {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+}
+
+/* Accessibility: reduce animation if user prefers */
+@media (prefers-reduced-motion: reduce) {
+  .alpha-announce__dot,
+  .alpha-announce--glow::after,
+  .alpha-announce__shine {
+    animation: none !important;
+  }
+}
