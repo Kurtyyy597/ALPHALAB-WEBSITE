@@ -5722,3 +5722,72 @@ html { scroll-behavior: smooth; }
     animation: none !important;
   }
 }
+
+/* ===== Layout ===== */
+.fp-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.fp-actions a,
+.fp-actions button {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+/* ===== PRIMARY ===== */
+.fp-actions .primary {
+  background: #111;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+}
+
+.fp-actions .primary:hover {
+  background: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== SECONDARY ===== */
+.fp-actions .secondary {
+  background: #f3f3f3;
+  color: #333;
+}
+
+.fp-actions .secondary:hover {
+  background: #e6e6e6;
+  transform: translateY(-1px);
+}
+
+/* ===== GHOST ===== */
+.fp-actions .ghost {
+  background: transparent;
+  color: #777;
+  border: 1px solid #ddd;
+}
+
+.fp-actions .ghost:hover {
+  background: #fafafa;
+  border-color: #bbb;
+  color: #333;
+}
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 640px) {
+  .fp-actions {
+    flex-direction: column;
+  }
+
+  .fp-actions a,
+  .fp-actions button {
+    width: 100%;
+  }
+}
