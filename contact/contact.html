@@ -175,68 +175,104 @@
       Fill out the form below and we’ll get back to you as soon as possible.
     </p>
 
-    <form action="https://formspree.io/f/xrepvoey" method="POST">
-      <div class="form-group reveal">
-  <select name="Inquiry Type" id="inquiryType" required>
-    <option value="" disabled selected>What do you want to book or ask?</option>
-    <option value="Membership Inquiry">Membership Inquiry</option>
-    <option value="Free Trial Session">Free Trial Session</option>
-    <option value="Gym Tour">Gym Tour</option>
-    <option value="Personal Coaching">Personal Coaching</option>
-    <option value="Barber Appointment">Barber Appointment</option>
-    <option value="Other">Other</option>
-  </select>
-</div>
+    <form action="https://formspree.io/f/xrepvoey" method="POST" autocomplete="on">
+  <div class="form-group reveal">
+    <label for="inquiryType" class="sr-only">Inquiry Type</label>
+    <select name="Inquiry Type" id="inquiryType" required autocomplete="off">
+      <option value="" disabled selected>What do you want to book or ask?</option>
+      <option value="Membership Inquiry">Membership Inquiry</option>
+      <option value="Free Trial Session">Free Trial Session</option>
+      <option value="Gym Tour">Gym Tour</option>
+      <option value="Personal Coaching">Personal Coaching</option>
+      <option value="Barber Appointment">Barber Appointment</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
 
-      <div class="form-group reveal">
-        <input type="text" name="Name" required placeholder="Type your name">
-        
-      </div>
+  <div class="form-group reveal">
+    <label for="fullName" class="sr-only">Name</label>
+    <input
+      type="text"
+      id="fullName"
+      name="Name"
+      required
+      placeholder="Type your name"
+      autocomplete="name"
+    >
+  </div>
 
-      <div class="form-group reveal">
-        <input type="email" name="email" required placeholder="Email Address">
+  <div class="form-group reveal">
+    <label for="email" class="sr-only">Email</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      required
+      placeholder="Email Address"
+      autocomplete="email"
+    >
+  </div>
 
-      </div>
+  <div class="form-group reveal">
+    <label for="social" class="sr-only">Social Media Profile Link</label>
+    <input
+      type="url"
+      id="social"
+      name="Social Media"
+      placeholder="Social Media Profile Link (Optional)"
+      autocomplete="url"
+    >
+  </div>
 
-      <div class="form-group reveal">
-        <input type="url" name="Social Media" placeholder="Social Media Profile Link (Optional)">
-      
-      </div>
+  <div class="form-group reveal">
+    <label for="phone" class="sr-only">Phone</label>
+    <input
+      type="tel"
+      id="phone"
+      name="Phone"
+      placeholder="Contact"
+      autocomplete="tel"
+    >
+  </div>
 
-      <div class="form-group reveal">
-        <input type="tel" name="Phone" placeholder="Contact">
-    
-      </div>
+  <div class="form-group reveal">
+    <label for="message" class="sr-only">Message</label>
+    <textarea
+      id="message"
+      name="Message"
+      rows="5"
+      placeholder="Your Message (optional)"
+      autocomplete="off"
+    ></textarea>
+  </div>
 
-      <div class="form-group reveal">
-        <textarea name="Message" rows="5" placeholder="Your Message (optional)"></textarea>
-      </div>
+  <div class="form-group reveal">
+    <label for="paymentMethod" class="sr-only">Preferred Payment Method</label>
+    <select name="Payment Method" id="paymentMethod" required autocomplete="off">
+      <option value="" disabled selected>Preferred Payment Method</option>
+      <option value="GCash">GCash</option>
+      <option value="Online Bank">Online Bank</option>
+      <option value="Cash">Cash</option>
+    </select>
+  </div>
 
-      <div class="form-group reveal">
-        <select name="Payment Method" required>
-          <option value="" disabled selected>Preferred Payment Method</option>
-          <option value="GCash">GCash</option>
-          <option value="Online Bank">Online Bank</option>
-          <option value="Cash">Cash</option>
-        </select>
-      </div>
+  <div class="form-group reveal">
+    <label for="coach" class="sr-only">Do you want to have a coach?</label>
+    <select name="Coach" id="coach" required autocomplete="off">
+      <option value="" disabled selected>Do you want to have a coach?</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+      <option value="I will think about it">I will think about it</option>
+    </select>
+  </div>
 
-      <div class="form-group reveal">
-        <select name="Coach" required>
-          <option value="" disabled selected>Do you want to have a coach?</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-          <option value="I will think about it">I will think about it</option>
-        </select>
-      </div>
+  <p class="form-message">
+    We will contact you once we receive your message.
+  </p>
 
-      <p class="form-message">
-        We will contact you once we receive your message.
-      </p>
-
-      <button type="button" class="clear-btn"  id="clearForm">Clear Form</button>
-      <button type="submit" class="form-btn">Send Message</button>
-    </form>
+  <button type="button" class="clear-btn" id="clearForm">Clear Form</button>
+  <button type="submit" class="form-btn">Send Message</button>
+</form>
   </section>
 
   <!-- CONTACT FAQ -->

@@ -1,6 +1,3 @@
-// ============================
-// WELCOME MESSAGE
-// ============================
 const welcomeEl = document.getElementById("welcomeMessage");
 
 function setWelcomeMessage() {
@@ -193,17 +190,10 @@ if (testimonials.length > 0) {
 // JOIN BUTTON EFFECT + SOUND
 // ============================
 const joinButtons = document.querySelectorAll(".join-box");
-const clickSound = new Audio(
-  "https://www.soundjay.com/buttons/sounds/button-16.mp3",
-);
 
 joinButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     btn.classList.add("pulse");
-    try {
-      clickSound.currentTime = 0;
-      clickSound.play();
-    } catch (_) {}
     setTimeout(() => btn.classList.remove("pulse"), 200);
   });
 });

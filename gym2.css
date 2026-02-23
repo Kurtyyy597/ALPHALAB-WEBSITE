@@ -3445,7 +3445,7 @@ main {
   content: "";
   position: absolute;
   inset: -30%;
-  background-image: url("../../Images/luxury-texture.jpg");
+  background-image: url("./Images/alpha-pic-1.png");
   background-size: cover;
   background-position: center;
   opacity: 0.08;
